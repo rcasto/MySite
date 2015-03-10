@@ -1,0 +1,22 @@
+doctype html
+html
+	head
+		title= title
+
+		meta(name="viewport", content="width=device-width, initial-scale=1")
+
+		link(rel="stylesheet", href="bower_components/bootstrap/dist/css/bootstrap.min.css")
+		link(rel="stylesheet/less", href="stylesheets/styles.less")
+	body
+		div(class="container")
+			div(class="clearfix header", href="#")
+				div(class="header-links")
+					a(class="btn btn-default", href="#") Home
+					a(class="btn btn-default", href="#") Projects
+					a(class="btn btn-default", href="#") About
+					a(class="btn btn-default", href="#") Contact
+
+				div(class="header-image")
+					img(src="images/me.jpg", class="img-responsive", alt="Picture of myself")
+
+			block content
