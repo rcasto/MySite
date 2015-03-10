@@ -7,7 +7,7 @@
 	window.onload = function () {
 		var addContent = document.getElementById('add-content');
 
-		contentElem = document.getElementsByClassName('content')[0];
+		contentElem = document.getElementsByClassName('main-content')[0];
 
 		addContent.onclick = function () {
 			var div = document.createElement('div');

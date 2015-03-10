@@ -9,7 +9,7 @@ html
 		link(rel="stylesheet/less", href="stylesheets/styles.less")
 	body
 		div(class="container")
-			div(class="clearfix header", href="#")
+			div(class="header", href="#")
 				div(class="header-links")
 					a(class="btn btn-default", href="#") Home
 					a(class="btn btn-default", href="#") Projects
@@ -20,3 +20,5 @@ html
 					img(src="images/me.jpg", class="img-responsive", alt="Picture of myself")
 
 			block content
+
+			include footer.jade
