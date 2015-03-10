@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "cd public && bower install && cd ..",
+    "clean": "rm -rf node_modules public/bower_components",
+    "test": ""
   },
   "dependencies": {
     "express": "~4.9.0",
