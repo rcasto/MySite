@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "postinstall": "cd public && bower install && cd ..",
     "clean": "rm -rf node_modules public/bower_components",
-    "test": ""
+    "test": "",
+    "debug": "node-debug ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -15,7 +16,13 @@
     "debug": "~2.0.0",
     "express": "~4.9.0",
     "jade": "~1.6.0",
+    "mongoose": "^3.8.25",
     "morgan": "~1.3.0",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
     "serve-favicon": "~2.1.3"
+  },
+  "devDependencies": {
+    "node-inspector": "^0.9.2"
   }
 }

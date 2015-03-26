@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	form(action="/api/blog", method="post")
+		div(class="form-group")
+			label(for="blogTitle") Blog Title
+			input(type="text", class="form-control", placeholder="Blog Title", name="blogTitle")
+		div(class="form-group")
+			label(for="blogEntry") Blog Entry
+			textarea(class="form-control", rows="5", placeholder="Blog Entry", name="blogEntry")
+		<button type="submit" class="btn btn-default pull-right">Submit</button>
+
+	each error in errors
+		p(class="text-danger")= error.msg
