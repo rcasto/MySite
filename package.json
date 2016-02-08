@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "engines": {
-      "node": ">= 4.2.6"   
+      "node": ">= 5.5.0"   
   },
   "scripts": {
     "preinstall": "bower install",

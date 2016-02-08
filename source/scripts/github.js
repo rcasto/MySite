@@ -7,25 +7,12 @@
     the user profile info for that user will be displayed
 */
 (function (username) {
-    var clientId = "525533b1efcb44e9a903";
-    var clientSecret = "3e4c04428e4fa65d48c0e79b996ea61153b2604e"; // will need to hide this
-    var authorizeUrl = "https://github.com/login/oauth/authorize";
-    
     var baseUrl = "https://api.github.com/";
     var userUrl = baseUrl + "users/";
     
     // Apparently getting access tokens from Github requires using a server proxy
     // it can't be done from a client side only application, thus the Oauth process
     // cannot be done
-    
-    // append clientId as query to authorization url
-    authorizeUrl = authorizeUrl.concat('?client_id=', clientId);
-    
-    // may not need this at all
-    function authenticate() {
-        // can window.open this and size the window
-        location.replace(authorizeUrl);
-    }
     
     // Extract only the needed info from the user object
     function getUserInfo(userName, cb) {
