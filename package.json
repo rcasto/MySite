@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "engine": "node >= 5.5.0",
+  "engine": "node >= 4.2.6",
   "scripts": {
     "preinstall": "bower install", 
     "prestart": "npm install && gulp",
