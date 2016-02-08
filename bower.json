@@ -1,0 +1,21 @@
+{
+  "name": "experiments",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Richie Casto"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.4"
+  }
+}
