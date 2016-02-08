@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engine": "node >= 5.5.0",
   "scripts": {
     "preinstall": "bower install", 
     "prestart": "npm install && gulp",
     "start": "node app.js",
     "clean": "gulp clean && rm -r node_modules bower_components",
-    "setupDeploy": "npm install && gulp",
-    "deploy": "npm run setupDeploy && git push azure master",
+    "deploy": "git push azure master",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Richie Casto",
