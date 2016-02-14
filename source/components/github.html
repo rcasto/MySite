@@ -12,12 +12,14 @@
                 <span>Following {{user.following}}</span>
             </div>
             <div class="repo-info">
+                <span class="chevron left-chevron vertically-center" on-click="goLeft"></span>
                 <template is="dom-repeat" items="{{repos}}" as="repo" indexAs="index">
-                    <div class$="{{computeActiveStatus(index, activeRepo)}}">
+                    <div class$="repo {{computeActiveStatus(index, activeRepo)}}">
                         <a href="{{repo.url}}">{{repo.name}}</a>
-                        <span>{{repo.lastUpdated}}</span>
+                        <div>Last updated: {{repo.lastUpdated}}</div>
                     </div>
                 </template>
+                <span class="chevron right-chevron vertically-center" on-click="goRight"></span>
             </div>
         </div>
         <style>
@@ -27,6 +29,8 @@
                 max-width: 540px;
                 width: 100%;
                 margin: 0 auto;
+                background-color: #85D3ED;
+                border: 5px solid #51C6ED;
             }
             .avatar {
                 width: 25%;
@@ -37,19 +41,41 @@
             }
             .repo-info {
                 position: relative;
-                width: 120px;
+                width: 300px;
                 height: 80px;
                 overflow: hidden;
                 clear: left;
                 margin: 0 auto;
             }
-            .active {
+            .repo {
+                display: none;
+            }
+            .repo.active {
+                display: block;
                 position: absolute;
-                top: 0;
+                top: 50%;
+                left: 16px;
+                right: 16px;
+                transform: translateY(-50%);
+                padding: 5px;
+                background-color: inherit;
+            }
+            .chevron {
+                width: 16px;
+                height: 16px;
+                position: absolute;
+            }
+            .left-chevron {
                 left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: white;
+                content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvElEQVQ4T2NkIBas+mLA9P///n+MjI4MYTwXYNoYidIP1czAwLjxXzhPArIewgZANTP+Zzj4N4I3AN1C/AbAbP7P+PAfO7cDQyDjB+INIEIzyDDsLiBSM3YDSNCMacDy7wpMTH/OM+DxM/4wgBhwgYGB8f4/Nm5HbIFGOBAhXjhArCH4ApEoQ3CnAyJdQkxCwusSYpPyAUYGhv1/w3kDCQcittwF885/xvX/IngSSctMMNVQQ/4xMjogZ2cA9tV/ETnWSM0AAAAASUVORK5CYII=);
+            }
+            .right-chevron {
+                right: 0;
+                content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABBUlEQVQ4T5WTTU7DMBCF33OlsqgluAInoDeBbEp3dW8QbsANGk5A2KFuCDfhJoCULooUP5Ri/tLESbyxbI8/zZs3Q4RlHssUxMoTayzsy/d9386fgG05Nx4FqFOIt35p7/o+1++/gPr0pLPJvsxBXgIqqqldI+FbDPQfECIn29JJyiC+eoMkJqkVcOB8ScpJXEhIuyR1A4Ik87HLCKy6JMUBAyQNAjQlVWCC61lx7EKs3HVNhHsC89GA4MoG4rs3uPrrSn8R97sNCQfpuTqxrtkXcRtDyhJu/NJmbQpjjdSachNy1MompCzgwU9n6fBWDlUGdE4yrRY2HzVMh3EGnDdwY8b5EyPPghFPRFc8AAAAAElFTkSuQmCC);
+            }
+            .vertically-center {
+                top: 50%;
+                transform: translateY(-50%);
             }
         </style>
     </template>
@@ -70,6 +96,8 @@
         (function (username) {
             var baseUrl = "https://api.github.com/";
             var userUrl = baseUrl + "users/";
+            
+            var timerId = null;
             
             // Extract only the needed info from the user object
             function getUserInfo(userName, cb) {
@@ -94,7 +122,7 @@
                         return {
                             name: repo.name,
                             url: repo.html_url,
-                            lastUpdated: repo.updated_at
+                            lastUpdated: Helpers.simpleDateString(new Date(repo.updated_at))
                         };
                     }));
                 });
@@ -125,8 +153,13 @@
                     return !userStatus && !repoStatus;
                 },
                 computeActiveStatus: function (repoIndex, activeIndex) {
-                    console.log(repoIndex, activeIndex);
                     return repoIndex === activeIndex ? 'active' : '';
+                },
+                goLeft: function () {
+                    clearTimeout(timerId);
+                },
+                goRight: function () {
+                    clearTimeout(timerId);
                 },
                 // add a callback to the element's prototype
                 ready: function () {
@@ -149,12 +182,12 @@
                        
                        // start ticker going through repos
                        if (numRepos > 0) {
-                           setTimeout(function repoTimer() {
+                           timerId = setTimeout(function repoTimer() {
                                this.activeRepo++;
                                if (this.activeRepo === numRepos) {
                                    this.activeRepo = 0;
                                }
-                               setTimeout(repoTimer.bind(this), 1000);
+                               timerId = setTimeout(repoTimer.bind(this), 1000);
                            }.bind(this), 1000);
                        }
                     }.bind(this));
