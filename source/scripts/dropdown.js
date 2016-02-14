@@ -14,7 +14,3 @@ var Dropdown = (function () {
     };
     
 }());
-
-// Testing
-// var arr = ['hello', 'blue', 'option3'];
-// Dropdown(arr);
