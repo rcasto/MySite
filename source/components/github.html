@@ -1,13 +1,165 @@
-<link rel="import"
-      href="bower_components/polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="scriptImports.html">
 
-<script>
-  // register a new element called proto-element
-  Polymer({
-    is: "proto-element",
-    // add a callback to the element's prototype
-    ready: function() {
-      this.textContent = "I'm a proto-element. Check out my prototype!"
-    }
-  });
-</script>
+<dom-module id="github-profile">
+    <template>
+        <div class="container" hidden$="[[computeLoadStatus(userLoaded, repoLoaded)]]">
+            <img class="avatar" src="{{user.avatar}}" />
+            <div class="user-info">
+                <a href="{{user.profile}}">{{user.username}}</a>
+                <p>{{user.name}}</p>
+                <span>{{user.followers}} Followers</span>
+                <span>Following {{user.following}}</span>
+            </div>
+            <div class="repo-info">
+                <template is="dom-repeat" items="{{repos}}" as="repo" indexAs="index">
+                    <div class$="{{computeActiveStatus(index, activeRepo)}}">
+                        <a href="{{repo.url}}">{{repo.name}}</a>
+                        <span>{{repo.lastUpdated}}</span>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <style>
+            .container {
+                max-height: 320px;
+                height: 100%;
+                max-width: 540px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            .avatar {
+                width: 25%;
+                float: left;
+            }
+            .user-info {
+                float: left;
+            }
+            .repo-info {
+                position: relative;
+                width: 120px;
+                height: 80px;
+                overflow: hidden;
+                clear: left;
+                margin: 0 auto;
+            }
+            .active {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: white;
+            }
+        </style>
+    </template>
+    
+    <script>
+        /*
+            In Progress:
+            Pass in a username to initialize with the profile information for that user
+            
+            To be done:
+            If no username is passed in you will be prompted to provide a username, when provided
+            the user profile info for that user will be displayed
+            
+            Apparently getting access tokens from Github requires using a server proxy
+            it can't be done from a client side only application, thus the Oauth process
+            cannot be done
+        */
+        (function (username) {
+            var baseUrl = "https://api.github.com/";
+            var userUrl = baseUrl + "users/";
+            
+            // Extract only the needed info from the user object
+            function getUserInfo(userName, cb) {
+                Request.get(userUrl + userName, function (data) {
+                    data = parseJSON(data);
+                    cb({
+                        name: data.name,
+                        username: data.login,
+                        avatar: data.avatar_url,
+                        profile: data.html_url,
+                        followers: data.followers,
+                        following: data.following
+                    });
+                });
+            }
+            
+            // Extract only the necessary info from each repo and return that object
+            function getUserRepoInfo(userName, cb) {
+                Request.get(userUrl.concat(userName, '/repos'), function (repos) {
+                    repos = parseJSON(repos);
+                    cb(repos.map(function (repo) {
+                        return {
+                            name: repo.name,
+                            url: repo.html_url,
+                            lastUpdated: repo.updated_at
+                        };
+                    }));
+                });
+            }
+            
+            // Convenience method to parse JSON, catches errors here in one place
+            // The error would come from the data not being valid JSON
+            function parseJSON(data) {
+                try {
+                    return JSON.parse(data);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+            
+            // register a new element called proto-element
+            Polymer({
+                is: "github-profile",
+                properties: {
+                    username: String,
+                    user: Object,
+                    repos: Object,
+                    userLoaded: Boolean,
+                    repoLoaded: Boolean,
+                    activeRepo: Number
+                },
+                computeLoadStatus: function (userStatus, repoStatus) {
+                    return !userStatus && !repoStatus;
+                },
+                computeActiveStatus: function (repoIndex, activeIndex) {
+                    console.log(repoIndex, activeIndex);
+                    return repoIndex === activeIndex ? 'active' : '';
+                },
+                // add a callback to the element's prototype
+                ready: function () {
+                    var numRepos = 0;
+                    
+                    this.userLoaded = false;
+                    this.repoLoaded = false;
+                    this.activeRepo = 0;
+                    
+                    getUserInfo(username, function (data) {
+                        this.user = data;
+                        this.userLoaded = true;
+                    }.bind(this));
+                    
+                    getUserRepoInfo(username, function (data) {
+                       this.repos = data;
+                       this.repoLoaded = true;
+                       
+                       numRepos = this.repos.length;
+                       
+                       // start ticker going through repos
+                       if (numRepos > 0) {
+                           setTimeout(function repoTimer() {
+                               this.activeRepo++;
+                               if (this.activeRepo === numRepos) {
+                                   this.activeRepo = 0;
+                               }
+                               setTimeout(repoTimer.bind(this), 1000);
+                           }.bind(this), 1000);
+                       }
+                    }.bind(this));
+                }
+            });
+        }("rcasto"));
+    </script>
+</dom-module>

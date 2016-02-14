@@ -6,10 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="normalize.css/normalize.css" />
         <link rel="stylesheet" href="styles/styles.css" />
-       <link rel="import" href="proto-element.html">
+       <link rel="import" href="components/github.html">
     </head>
     <body>
-        <div class="header">
+        <div class="header slidetop">
             <h1>Climbing Code</h1>
         </div>
         <div class="about-me">
@@ -23,14 +23,11 @@
             </div>
         </div>
         
-        <div class="github-profile">
-        </div>
+        <github-profile></github-profile>
         
-        <div class="footer">
-        </div>
+        <div class="footer"></div>
         
-        <script type="text/javascript" src="scripts/locationUtil.js"></script>
-        <script type="text/javascript" src="scripts/request.js"></script>
-        <script type="text/javascript" src="scripts/github.js"></script>
+        <script type="text/javascript" src="scripts/util/helpers.js"></script>
+        <script type="text/javascript" src="scripts/dropdown.js"></script>
     </body>
 </html>

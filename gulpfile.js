@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence');
     
 var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js'];
-var views = ['source/index.html', 'source/views/*.html', 'source/partial-views/*.html'];
+var views = ['source/index.html', 'source/views/*.html', 'source/partial-views/*.html', 'source/components/*.html'];
 var images = ['source/images/*.jpg', 'source/images/*.png', 'source/images/*.svg'];
 var lessFiles = ['source/styles/*.less'];
 
