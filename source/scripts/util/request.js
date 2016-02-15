@@ -27,7 +27,7 @@ var Request = (function () {
         return xhr;
     }
     
-    function get(url, success) {
+    function get(url, success, failure) {
         var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         xhr.open('GET', url);
         xhr.onreadystatechange = function() {
@@ -35,6 +35,7 @@ var Request = (function () {
                 success(xhr.responseText);
             }
         };
+        xhr.onerror = failure;
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.send();
         return xhr;

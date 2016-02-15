@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "engines": {
-      "node": ">= 5.5.0"   
+    "node": ">= 5.5.0"
   },
   "scripts": {
     "preinstall": "bower install",
@@ -18,7 +18,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
-    "normalize.css": "^3.0.3"
+    "normalize.css": "^3.0.3",
+    "poet": "^2.0.1"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
