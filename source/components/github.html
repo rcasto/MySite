@@ -242,8 +242,6 @@
                     go.call(this, 1);
                 },
                 switchUser: function () {
-                    console.log(arguments);
-                    // Need to add a debounce timer here
                     clearTimeout(keyTimerId);
                     keyTimerId = setTimeout(function () {
                         stopRepoTick();
