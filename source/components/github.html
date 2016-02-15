@@ -17,14 +17,16 @@
                 <div class="user-info">
                     <a href="{{user.profile}}" target="_blank">{{user.username}}</a>
                     <p>{{user.name}}</p>
-                    <span>{{user.followers}} Followers</span>
-                    <span>Following {{user.following}}</span>
+                    <div class="follower-info">
+                        <p>{{user.followers}} Followers</p>
+                        <p>Following {{user.following}}</p>
+                    </div>
                 </div>
             </div>
             <div class="repo-info">
                 <span class="chevron left-chevron vertically-center" on-click="goLeft"></span>
                 <template is="dom-repeat" items="{{repos}}" as="repo" indexAs="index">
-                    <div class$="repo {{computeActiveStatus(index, activeRepo)}}">
+                    <div class$="repo vertically-center {{computeActiveStatus(index, activeRepo)}}">
                         <a href="{{repo.url}}" target="_blank">{{repo.name}}</a>
                         <div>Last updated: {{repo.lastUpdated}}</div>
                     </div>
@@ -44,7 +46,8 @@
                 border: 5px solid #51C6ED;
             }
             #github-name {
-                width: 90%;
+                max-width: 90%;
+                width: 100%;
                 margin: 0 auto;
                 display: block;
                 padding: 3px;
@@ -58,14 +61,19 @@
             }
             .user-info {
                 float: left;
-                margin-left: 5px;
+                margin-left: 10px;
+            }
+            .user-info p {
+                margin-top: 0;
+            }
+            .follower-info p {
+                margin: 0;
             }
             .repo-info {
-                position: relative;
-                width: 320px;
+                max-width: 320px;
+                width: 100%;
                 height: 80px;
                 overflow: hidden;
-                clear: left;
                 margin: 0 auto;
             }
             .repo {
@@ -73,34 +81,32 @@
             }
             .repo.active {
                 display: block;
-                position: absolute;
-                top: 50%;
-                left: 16px;
-                right: 16px;
-                transform: translateY(-50%);
-                padding: 0 10px;
+                width: calc(100% - 64px);
+                float: left;
+                text-align: center;
+                margin: 0 auto;
                 background-color: inherit;
             }
             .chevron {
                 width: 16px;
                 height: 16px;
-                position: absolute;
+                cursor: pointer;
+                float: left;
             }
             .left-chevron {
-                left: 0;
                 content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvElEQVQ4T2NkIBas+mLA9P///n+MjI4MYTwXYNoYidIP1czAwLjxXzhPArIewgZANTP+Zzj4N4I3AN1C/AbAbP7P+PAfO7cDQyDjB+INIEIzyDDsLiBSM3YDSNCMacDy7wpMTH/OM+DxM/4wgBhwgYGB8f4/Nm5HbIFGOBAhXjhArCH4ApEoQ3CnAyJdQkxCwusSYpPyAUYGhv1/w3kDCQcittwF885/xvX/IngSSctMMNVQQ/4xMjogZ2cA9tV/ETnWSM0AAAAASUVORK5CYII=);
             }
             .left-chevron:active {
                 content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAuElEQVQ4T2NkIBZM7TJgYPi3n4GByZEhu+wCTBsjUfphmhn/b2TIqkxA1kPYALjNDAcZsisC0C3EbwDcZoaHDD/ZHRgKCz8QbwARmkGGYXcBkZqxG0CCZkwDprcrMPxjPM/AiNvP+MMAZMB/xgsM/xnuM/xid8QWaIQDEeQFxn8HiDUEdyASaQjudECkSwgnJAIuIS4pgwxhYNjPkFURSDgQseUuhHfWM2RXJJKWmWCq4YYwOSBnZwA3h2wRtS232gAAAABJRU5ErkJggg==);
             }
             .right-chevron {
-                right: 0;
                 content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABBUlEQVQ4T5WTTU7DMBCF33OlsqgluAInoDeBbEp3dW8QbsANGk5A2KFuCDfhJoCULooUP5Ri/tLESbyxbI8/zZs3Q4RlHssUxMoTayzsy/d9386fgG05Nx4FqFOIt35p7/o+1++/gPr0pLPJvsxBXgIqqqldI+FbDPQfECIn29JJyiC+eoMkJqkVcOB8ScpJXEhIuyR1A4Ik87HLCKy6JMUBAyQNAjQlVWCC61lx7EKs3HVNhHsC89GA4MoG4rs3uPrrSn8R97sNCQfpuTqxrtkXcRtDyhJu/NJmbQpjjdSachNy1MompCzgwU9n6fBWDlUGdE4yrRY2HzVMh3EGnDdwY8b5EyPPghFPRFc8AAAAAElFTkSuQmCC);
             }
             .right-chevron:active {
                 content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA+0lEQVQ4T5WTO27CQBCGv3EknC65Qk4QbkI4AUuLG7vh0dEh0hgKaENu4NwkN0noMFIYtCBjcFg/plrNjj7NP/OPkMV6HqLaA69PMPy+5CsecvlfvbfhLwF5AqYE42UdSA6w1XH8TCvdIHSAhNTvE0W/ZaBbQFa5mhlEFsAP6nXLJN0HWJCVJIcN8IoSuiS5AZkkf7cA6bkklQNqSKoHKEpCugxGiU03A3D4QGjTGGC3gsSgW3h4u95K9RBbaYxgUL7Y+6boi/I15i1HDEbWF//CbSRHy0XCPSufW0Y/SR/D+lY+HdNpyi+ohgQT68LKyDuw54wa1DNNzvkIi/BjEcFVfRMAAAAASUVORK5CYII=);
             }
             .vertically-center {
+                position: relative;
                 top: 50%;
                 transform: translateY(-50%);
             }
@@ -129,6 +135,9 @@
             
             var arrowTimerId = null;
             var arrowTimerDelay = 10000;
+            
+            var keyTimerId = null;
+            var keyTimerDelay = 2000;
             
             // Extract only the needed info from the user object
             function getUserInfo(userName, cb) {
@@ -233,7 +242,14 @@
                     go.call(this, 1);
                 },
                 switchUser: function () {
+                    console.log(arguments);
                     // Need to add a debounce timer here
+                    clearTimeout(keyTimerId);
+                    keyTimerId = setTimeout(function () {
+                        stopRepoTick();
+                        stopScrollTick();
+                        this.ready();
+                    }.bind(this), keyTimerDelay);
                 },
                 // add a callback to the element's prototype
                 ready: function () {
@@ -241,12 +257,12 @@
                     this.repoLoaded = false;
                     this.activeRepo = 0;
                     
-                    getUserInfo(username, function (data) {
+                    getUserInfo(this.username || username, function (data) {
                         this.user = data;
                         this.userLoaded = true;
                     }.bind(this));
                     
-                    getUserRepoInfo(username, function (data) {
+                    getUserRepoInfo(this.username || username, function (data) {
                        this.repos = data;
                        this.repoLoaded = true; 
                        startRepoTick.apply(this);
