@@ -27,18 +27,19 @@ var Request = (function () {
         return xhr;
     }
     
-    function get(url, success, failure) {
-        var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        xhr.open('GET', url);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState > 3 && xhr.status === 200) {
-                success(xhr.responseText);
-            }
-        };
-        xhr.onerror = failure;
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.send();
-        return xhr;
+    function get(url) {
+        return new Promise(function (resolve, reject) {
+            var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            xhr.open('GET', url);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState > 3 && xhr.status === 200) {
+                    resolve(xhr.responseText);
+                }
+            };
+            xhr.onerror = reject;
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.send(); 
+        });
     }
     
     function post(url, data, success) {

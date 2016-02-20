@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var Poet = require('poet');
+var jade = require('jade');
 
 var port = process.env.PORT || 3000;
 var app = express();
@@ -11,11 +12,14 @@ var poet = Poet(app, {
    metaFormat: 'json'
 });
 
-poet.addRoute('/posts/:post', function (req, res) {
+poet.addTemplate({
+    ext: 'jade',
+    fn: function (options) { return jade.render(options.source, options); }
+})
+poet.addRoute('/blog/:post', function (req, res) {
     var post = poet.helpers.getPost(req.params.post);
-    console.log(post);
     if (post) {
-        res.json(post);
+        res.render('blog', post);
     } else {
         res.sendStatus(404);
     }
@@ -27,7 +31,8 @@ poet.addRoute('/posts/:post', function (req, res) {
 
 // set views directory, used for rendering blog posts
 // app.set('view engine', 'jade');
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname + '/views'));
+app.set('view engine', 'jade');
 
 // Setup static routes
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -49,6 +54,16 @@ app.get('/', function (req, res) {
         }
         console.log('Sent client home page successfully');
     });
+});
+
+// blog api endpoint
+app.get('/api/blog/:post', function (req, res) {
+    var post = poet.helpers.getPost(req.params.post);
+    if (post) {
+        res.json(post);
+    } else {
+        res.sendStatus(404);
+    }
 });
 
 // Start the server

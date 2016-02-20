@@ -10,7 +10,7 @@
                     value="{{username::input}}" 
                     on-keyup="switchUser"/>
             </div>
-            <div class="profile-info">
+            <div class="profile-info clear-fix">
                 <a href="{{user.profile}}" target="_blank">
                     <img class="avatar" src="{{user.avatar}}" />
                 </a>
@@ -46,18 +46,20 @@
                 border: 5px solid #51C6ED;
             }
             #github-name {
-                max-width: 90%;
-                width: 100%;
-                margin: 0 auto;
                 display: block;
                 padding: 3px;
+            }
+            .profile-info, .repo-info, #github-name {
+                max-width: 90%;
+                margin: 0 auto;
+                width: 100%;
             }
             .avatar {
                 width: 25%;
                 float: left;
             }
             .profile-info {
-                margin-top: 10px;
+                padding: 12px;
             }
             .user-info {
                 float: left;
@@ -70,11 +72,8 @@
                 margin: 0;
             }
             .repo-info {
-                max-width: 320px;
-                width: 100%;
                 height: 80px;
                 overflow: hidden;
-                margin: 0 auto;
             }
             .repo {
                 display: none;
@@ -104,11 +103,6 @@
             }
             .right-chevron:active {
                 content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA+0lEQVQ4T5WTO27CQBCGv3EknC65Qk4QbkI4AUuLG7vh0dEh0hgKaENu4NwkN0noMFIYtCBjcFg/plrNjj7NP/OPkMV6HqLaA69PMPy+5CsecvlfvbfhLwF5AqYE42UdSA6w1XH8TCvdIHSAhNTvE0W/ZaBbQFa5mhlEFsAP6nXLJN0HWJCVJIcN8IoSuiS5AZkkf7cA6bkklQNqSKoHKEpCugxGiU03A3D4QGjTGGC3gsSgW3h4u95K9RBbaYxgUL7Y+6boi/I15i1HDEbWF//CbSRHy0XCPSufW0Y/SR/D+lY+HdNpyi+ohgQT68LKyDuw54wa1DNNzvkIi/BjEcFVfRMAAAAASUVORK5CYII=);
-            }
-            .vertically-center {
-                position: relative;
-                top: 50%;
-                transform: translateY(-50%);
             }
         </style>
     </template>
@@ -141,7 +135,7 @@
             
             // Extract only the needed info from the user object
             function getUserInfo(userName, cb) {
-                Request.get(userUrl + userName, function (data) {
+                Request.get(userUrl + userName).then(function (data) {
                     data = parseJSON(data);
                     cb({
                         name: data.name,
@@ -156,7 +150,7 @@
             
             // Extract only the necessary info from each repo and return that object
             function getUserRepoInfo(userName, cb) {
-                Request.get(userUrl.concat(userName, '/repos'), function (repos) {
+                Request.get(userUrl.concat(userName, '/repos')).then(function (repos) {
                     repos = parseJSON(repos);
                     cb(repos.map(function (repo) {
                         return {
