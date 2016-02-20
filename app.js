@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var Poet = require('poet');
-var jade = require('jade');
 
 var port = process.env.PORT || 3000;
 var app = express();
@@ -12,10 +11,6 @@ var poet = Poet(app, {
    metaFormat: 'json'
 });
 
-poet.addTemplate({
-    ext: 'jade',
-    fn: function (options) { return jade.render(options.source, options); }
-})
 poet.addRoute('/blog/:post', function (req, res) {
     var post = poet.helpers.getPost(req.params.post);
     if (post) {

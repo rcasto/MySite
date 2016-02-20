@@ -1,5 +1,5 @@
 {{{
-  "title" : "test1",
+  "title" : "test",
   "tags"  : [ "blog", "fun" ],
   "category" : "javascript",
   "date" : "2-16-16"

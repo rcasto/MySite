@@ -18,8 +18,8 @@
                     <a href="{{user.profile}}" target="_blank">{{user.username}}</a>
                     <p>{{user.name}}</p>
                     <div class="follower-info">
-                        <p>{{user.followers}} Followers</p>
-                        <p>Following {{user.following}}</p>
+                        <p># Followers: {{user.followers}}</p>
+                        <p># Following: {{user.following}}</p>
                     </div>
                 </div>
             </div>
@@ -56,6 +56,8 @@
             }
             .avatar {
                 width: 25%;
+                height: 100%;
+                display: block;
                 float: left;
             }
             .profile-info {
