@@ -1,5 +1,3 @@
-require("babel-polyfill"); // ES6 feature polyfills
-
 var express = require('express');
 var path = require('path');
 var Poet = require('poet');

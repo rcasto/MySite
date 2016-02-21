@@ -1,3 +1,5 @@
+require("babel-polyfill"); // ES6 feature polyfills
+
 var gulp = require('gulp'),
     babel = require('gulp-babel'),
     del = require('del'),
