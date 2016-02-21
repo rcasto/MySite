@@ -20,6 +20,11 @@ body {
     border-color: #4BBD5A;
     padding: 12px;
 }
+html, body {
+    @media(min-width: @website-max-width) {
+        height: 100%;
+    }
+}
 
 .header {
     text-align: center;
