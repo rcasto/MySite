@@ -12,7 +12,7 @@ var gulp = require('gulp'),
 var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js'];
 var views = ['source/index.html', 'source/views/*.html', 'source/partial-views/*.html', 'source/components/*.html'];
 var images = ['source/images/*.jpg', 'source/images/*.png', 'source/images/*.svg'];
-var lessFiles = ['source/styles/*.less'];
+var lessFiles = ['node_modules/normalize.css/normalize.css', 'source/styles/*.less'];
 
 var output = ['dist'];
 
@@ -26,8 +26,8 @@ function buildEs6() {
 
 function buildLess() {
     return gulp.src(lessFiles, {
-        base: 'source'
-    }).pipe(less({ }));    
+        base: '/'
+    }).pipe(less({ }));
 }
 
 gulp.task('minifyjs', function () {

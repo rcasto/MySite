@@ -36,7 +36,7 @@ html, body {
 }
 
 .about-me {
-    margin-bottom: 5px;
+    margin: 15px 0 10px 0;
     
     .profile-pic {
         width: 120px;
@@ -51,8 +51,6 @@ html, body {
     }
     
     .bio {
-        position: static;
-        
         .arrow {
             width: 16px;
             height: 16px;
@@ -68,7 +66,11 @@ html, body {
         
         .bio-info {
             margin: 0;
-            padding: 0 5px;
+            text-align: center;
+            
+            @media (min-width: @mobile-breakpoint) {
+                text-align: initial;
+            }
         }
         
         @media (min-width: @mobile-breakpoint) {
