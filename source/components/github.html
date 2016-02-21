@@ -1,41 +1,46 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="scriptImports.html">
+<link rel="import" href="loadingSpinner.html">
 
 <dom-module id="github-profile">
     <template>
-        <div class="container" hidden$="[[computeLoadStatus(userLoaded, repoLoaded)]]">
-            <div>
-                <input id="github-name" type="text" 
-                    placeholder="Try your Github name here..." 
-                    value="{{username::input}}" 
-                    on-keyup="switchUser"/>
-            </div>
-            <div class="profile-info clear-fix">
-                <a href="{{user.profile}}" target="_blank">
-                    <img class="avatar" src="{{user.avatar}}" />
-                </a>
-                <div class="user-info">
-                    <a href="{{user.profile}}" target="_blank">{{user.username}}</a>
-                    <p>{{user.name}}</p>
-                    <div class="follower-info">
-                        <p># Followers: {{user.followers}}</p>
-                        <p># Following: {{user.following}}</p>
+        <div class$="container [[computeLoadStyle(userLoaded, repoLoaded)]]">
+            <loading-spinner hidden$="[[!computeLoadStatus(userLoaded, repoLoaded)]]"></loading-spinner>
+            <div hidden$="[[computeLoadStatus(userLoaded, repoLoaded)]]">
+                <div>
+                    <input id="github-name" type="text" 
+                        placeholder="Try your Github name here..." 
+                        value="{{username::input}}" 
+                        on-keyup="switchUser"/>
+                </div>
+                <div class="profile-info clear-fix">
+                    <a href="{{user.profile}}" target="_blank">
+                        <img class="avatar" src="{{user.avatar}}" />
+                    </a>
+                    <div class="user-info">
+                        <a href="{{user.profile}}" target="_blank">{{user.username}}</a>
+                        <p>{{user.name}}</p>
+                        <div class="follower-info">
+                            <p># Followers: {{user.followers}}</p>
+                            <p># Following: {{user.following}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="repo-info">
-                <span class="chevron left-chevron vertically-center" on-click="goLeft"></span>
-                <template is="dom-repeat" items="{{repos}}" as="repo" indexAs="index">
-                    <div class$="repo vertically-center {{computeActiveStatus(index, activeRepo)}}">
-                        <a href="{{repo.url}}" target="_blank">{{repo.name}}</a>
-                        <div>Last updated: {{repo.lastUpdated}}</div>
-                    </div>
-                </template>
-                <span class="chevron right-chevron vertically-center" on-click="goRight"></span>
+                <div class="repo-info">
+                    <span class="chevron left-chevron vertically-center" on-click="goLeft"></span>
+                    <template is="dom-repeat" items="{{repos}}" as="repo" indexAs="index">
+                        <div class$="repo vertically-center {{computeActiveStatus(index, activeRepo)}}">
+                            <a href="{{repo.url}}" target="_blank">{{repo.name}}</a>
+                            <div>Last updated: {{repo.lastUpdated}}</div>
+                        </div>
+                    </template>
+                    <span class="chevron right-chevron vertically-center" on-click="goRight"></span>
+                </div>
             </div>
         </div>
         <style>
             .container {
+                position: relative;
                 max-height: 320px;
                 height: 100%;
                 max-width: 420px;
@@ -44,6 +49,9 @@
                 padding: 10px;
                 background-color: #85D3ED;
                 border: 5px solid #51C6ED;
+            }
+            .container.loading {
+                min-height: 240px;
             }
             #github-name {
                 display: block;
@@ -214,7 +222,7 @@
                 }
             }
             
-            // register a new element called proto-element
+            // register a new element
             Polymer({
                 is: "github-profile",
                 properties: {
@@ -227,6 +235,9 @@
                 },
                 computeLoadStatus: function (userStatus, repoStatus) {
                     return !userStatus && !repoStatus;
+                },
+                computeLoadStyle: function (userStatus, repoStatus) {
+                    return this.computeLoadStatus(userStatus, repoStatus) ? 'loading' : '';
                 },
                 computeActiveStatus: function (repoIndex, activeIndex) {
                     return repoIndex === activeIndex ? 'active' : '';
