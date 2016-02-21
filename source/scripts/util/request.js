@@ -1,32 +1,5 @@
 var Request = (function () {
     
-    function jsonP(url, callback) {
-        var script = document.createElement('script');
-        // Save the callback internally to this function
-        // Only globally accessible functions can be called with JSONP    
-        jsonP.callback = callback;
-        // check if url already has query string, if not add it
-        if (url.indexOf('?') < 0) {
-            url += '?';
-        } else if (url[url.length - 1] !== '&') {
-            url += '&';
-        }
-        if (url.indexOf('callback=') < 0) {
-            url += 'callback=Request.jsonP.callback';
-        }
-        script.src = url
-        document.body.appendChild(script);
-    }
-    
-    function cors(url, success, error) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.onload = success;
-        xhr.onerror = error;
-        xhr.send();
-        return xhr;
-    }
-    
     function get(url) {
         return new Promise(function (resolve, reject) {
             var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -64,9 +37,7 @@ var Request = (function () {
     
     return {
         get: get,
-        post: post,
-        jsonP: jsonP,
-        cors: cors
+        post: post
     };
     
 }());

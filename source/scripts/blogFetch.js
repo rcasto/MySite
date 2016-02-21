@@ -27,13 +27,6 @@ var Blog = (function () {
         });
     }
     
-    function fetchAll() {
-        
-    }
-    
-    // Testing
-    fetch('test');
-    
     return {
         fetch: fetch  
     };

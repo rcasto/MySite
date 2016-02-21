@@ -2,7 +2,10 @@ var gulp = require('gulp'),
     babel = require('gulp-babel'),
     del = require('del'),
     less = require('gulp-less'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    minify = require('gulp-minify'),
+    concat = require('gulp-concat'),
+    cssnano = require('gulp-cssnano');
     
 var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js'];
 var views = ['source/index.html', 'source/views/*.html', 'source/partial-views/*.html', 'source/components/*.html'];
@@ -11,12 +14,41 @@ var lessFiles = ['source/styles/*.less'];
 
 var output = ['dist'];
 
-gulp.task('scripts', function () {
+function buildEs6() {
     return gulp.src(jsSources, {
         base: 'source'
     }).pipe(babel({
         presets: ['es2015']
-    })).pipe(gulp.dest('./dist'));
+    }));
+}
+
+function buildLess() {
+    return gulp.src(lessFiles, {
+        base: 'source'
+    }).pipe(less({ }));    
+}
+
+gulp.task('minifyjs', function () {
+    return gulp.src(jsSources, {
+            base: 'source'
+        })
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(concat('website.js'))
+        .pipe(minify())
+        .pipe(gulp.dest('./dist/scripts/'));
+});
+
+gulp.task('minifycss', function () {
+    return buildLess()
+        .pipe(concat('website.css'))
+        .pipe(cssnano())
+        .pipe(gulp.dest('./dist/styles/'));
+});
+
+gulp.task('scripts', function () {
+    return buildEs6().pipe(gulp.dest('./dist'));
 });
 
 gulp.task('views', function () {
@@ -26,10 +58,7 @@ gulp.task('views', function () {
 });
 
 gulp.task('less', function () {
-    return gulp.src(lessFiles, {
-        base: 'source'
-    }).pipe(less({
-    })).pipe(gulp.dest('./dist'));
+    return buildLess().pipe(gulp.dest('./dist'));
 });
 
 gulp.task('images', function () {
@@ -42,12 +71,12 @@ gulp.task('clean', function () {
     return del(output);
 });
 
-gulp.task('watch', function () {
-    gulp.watch(jsSources, ['scripts']);
-});
+// gulp.task('watch', function () {
+//     gulp.watch(jsSources, ['scripts']);
+// });
 
 // Task dependencies all fire at the same time unless
 // they too explicitly have dependencies that must run first
 gulp.task('default', function () {
-    runSequence('clean', ['scripts', 'views', 'images', 'less'])
+    runSequence('clean', ['minifyjs', 'minifycss', 'views', 'images'])
 });

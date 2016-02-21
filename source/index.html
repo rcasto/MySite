@@ -5,7 +5,8 @@
         <title>The Awesome Site of Richie Casto</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="normalize.css/normalize.css" />
-        <link rel="stylesheet" href="styles/styles.css" />
+        <!--<link rel="stylesheet" href="styles/styles.css" />-->
+        <link rel="stylesheet" href="styles/website.css" />
         <link rel="import" href="components/github.html">
     </head>
     <body>
@@ -24,16 +25,19 @@
         </div>
         
         <github-profile></github-profile>
-        
+    
         <template id="blogTemplate">
             <div class="blog"></div>
         </template>
         
         <!-- This must be included before all compiled scripts -->
-        <script type="text/javascript" src="babel-polyfill/dist/polyfill.js"></script>
+        <script type="text/javascript" src="babel-polyfill/dist/polyfill.min.js"></script>
         
+        <!-- This is all the scripts bundled and minified - For production use -->
+        <script type="text/javascript" src="scripts/website-min.js"></script>
+<!--        
         <script type="text/javascript" src="scripts/util/helpers.js"></script>
         <script type="text/javascript" src="scripts/main.js"></script>
-        <script type="text/javascript" src="scripts/blogFetch.js"></script>
+        <script type="text/javascript" src="scripts/blogFetch.js"></script>-->
     </body>
 </html>

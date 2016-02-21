@@ -1,12 +1,13 @@
 @mobile-breakpoint: 360px;
 @website-max-width: 548px;
+@height-breakpoint: 420px;  // Should be near height of content of page
 
 *, *:before, *:after {
     box-sizing: border-box; 
 }
 
 html {
-    @media(min-width: @website-max-width) {
+    @media (min-width: @website-max-width) {
         background: url("../images/code-and-beer.jpg") no-repeat center center fixed;;
         background-size: cover; 
     }
@@ -21,7 +22,7 @@ body {
     padding: 12px;
 }
 html, body {
-    @media(min-width: @website-max-width) {
+    @media (min-height: @height-breakpoint) {
         height: 100%;
     }
 }
@@ -43,7 +44,7 @@ html, body {
         margin: 0 auto;
         display: block;
         
-        @media(min-width: @mobile-breakpoint) {
+        @media (min-width: @mobile-breakpoint) {
             float: left;
             margin-right: 5px;
         }
@@ -58,7 +59,7 @@ html, body {
             background-image: url("../images/arrow-up.svg");
             margin: 5px auto;
             
-            @media(min-width: @mobile-breakpoint) {
+            @media (min-width: @mobile-breakpoint) {
                 margin: 0 5px 0 0;
                 float: left;
                 background-image: url("../images/arrow-left.svg");
@@ -70,13 +71,13 @@ html, body {
             padding: 0 5px;
         }
         
-        @media(min-width: @mobile-breakpoint) {
+        @media (min-width: @mobile-breakpoint) {
             height: 160px;
             .vertically-center;
         }
     }
     
-    @media(min-width: @mobile-breakpoint) {
+    @media (min-width: @mobile-breakpoint) {
         height: 160px;
     }
 }
