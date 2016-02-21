@@ -1,24 +1,24 @@
 @mobile-breakpoint: 360px;
+@website-max-width: 548px;
 
 *, *:before, *:after {
     box-sizing: border-box; 
 }
 
 html {
-    background: url("../images/code-and-beer.jpg") no-repeat center center fixed;;
-    background-size: cover; 
+    @media(min-width: @website-max-width) {
+        background: url("../images/code-and-beer.jpg") no-repeat center center fixed;;
+        background-size: cover; 
+    }
 }
 body {
     background-color: #3A7041;
-    max-width: 548px;
+    max-width: @website-max-width;
     margin: 0 auto;
     border-width: 0 2px;
     border-style: solid;
     border-color: #4BBD5A;
     padding: 12px;
-}
-html, body {
-    height: 100%;
 }
 
 .header {
