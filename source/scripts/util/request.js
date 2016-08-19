@@ -4,7 +4,7 @@ var Request = (function () {
         return new Promise(function (resolve, reject) {
             var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             xhr.open('GET', url);
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState > 3 && xhr.status === 200) {
                     resolve(xhr.responseText);
                 }
