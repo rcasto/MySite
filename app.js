@@ -27,7 +27,7 @@ poet.addRoute('/blog/:post', function (req, res) {
 // set views directory, used for rendering blog posts
 // app.set('view engine', 'jade');
 app.set('views', path.join(__dirname + '/views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // Setup static routes
 app.use(express.static(path.join(__dirname, 'dist')));
