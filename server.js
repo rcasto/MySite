@@ -43,12 +43,13 @@ app.use(function(req, res, next) {
 
 // Homepage route
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'), function (err) {
-        if (err) {
-            console.error('Error sending home page:', JSON.stringify(error));
-        }
-        console.log('Sent client home page successfully');
-    });
+    res.render('index');
+    // res.sendFile(path.join(__dirname, 'index.html'), function (err) {
+    //     if (err) {
+    //         console.error('Error sending home page:', JSON.stringify(error));
+    //     }
+    //     console.log('Sent client home page successfully');
+    // });
 });
 
 // blog api endpoint
