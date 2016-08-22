@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prestart": "gulp",
-    "start": "node app.js",
+    "start": "node server.js",
     "clean": "gulp clean && rm -r node_modules",
     "deploy": "git push azure master",
     "test": "echo \"Error: no test specified\" && exit 1"
