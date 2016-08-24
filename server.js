@@ -31,7 +31,6 @@ app.set('view engine', 'pug');
 
 // Setup static routes
 app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // Homepage route
