@@ -36,8 +36,7 @@ function styleDependencies() {
 }
 
 gulp.task('minifyjs', function () {
-    return merge2(
-        gulp.src(jsSources, {
+    return gulp.src(jsSources, {
             base: 'source'
         })
         .pipe(babel({
@@ -47,8 +46,7 @@ gulp.task('minifyjs', function () {
         .pipe(minify({
             noSource: true
         }))
-        .pipe(gulp.dest('./dist/scripts/')),
-        del('dist/scripts/website.js'));
+        .pipe(gulp.dest('./dist/scripts/'));
 });
 
 gulp.task('minifycss', function () {
