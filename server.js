@@ -4,12 +4,12 @@ var Poet = require('poet');
 
 var port = process.env.PORT || 3000;
 var environment = process.env.NODE_ENV || 'development';
+var app = express();
 var poet = Poet(app, {
    posts: './posts/',
    postsPerPage: 5,
    metaFormat: 'json'
 });
-var app = express();
 
 // Setup PoetJS for Blogging
 poet.addRoute('/blog/:post', function (req, res) {
