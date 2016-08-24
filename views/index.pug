@@ -3,9 +3,12 @@ html
   head
     title The Awesome Site of Richie Casto
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    // <link rel="stylesheet" href="normalize.css/normalize.css" />
-    // <link rel="stylesheet" href="styles/styles.css" />
-    link(rel='stylesheet', href='styles/website.css')
+
+    if environment === 'production'
+      link(rel='stylesheet', href='styles/website.css')
+    else
+      link(rel="stylesheet" href="normalize.css/normalize.css")
+      link(rel="stylesheet" href="styles/styles.css")
   body
     .header
       h1 Climbing Code
@@ -19,12 +22,13 @@ html
     github-profile
     template#blogTemplate
       .blog
+    
     // This must be included before all compiled scripts
     script(type='text/javascript', src='babel-polyfill/dist/polyfill.min.js')
-    // This is all the scripts bundled and minified - For production use
-    script(type='text/javascript', src='scripts/website-min.js')
-    // Uncomment for development testing
-    //
-      <script type="text/javascript" src="scripts/util/helpers.js"></script>
-      <script type="text/javascript" src="scripts/main.js"></script>
-      <script type="text/javascript" src="scripts/blogFetch.js"></script>
+
+    if environment === 'production'
+        script(type='text/javascript', src='scripts/website-min.js')
+    else
+        script(type='text/javascript' src='scripts/util/helpers.js')
+        script(type='text/javascript' src='scripts/main.js')
+        script(type='text/javascript' src='scripts/blogFetch.js')

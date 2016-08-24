@@ -3,6 +3,7 @@ var path = require('path');
 var Poet = require('poet');
 
 var port = process.env.PORT || 3000;
+var environment = process.env.NODE_ENV || 'development';
 var app = express();
 
 var poet = Poet(app, {
@@ -25,7 +26,6 @@ poet.addRoute('/blog/:post', function (req, res) {
 });
 
 // set views directory, used for rendering blog posts
-// app.set('view engine', 'jade');
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 
@@ -43,13 +43,9 @@ app.use(function(req, res, next) {
 
 // Homepage route
 app.get('/', function (req, res) {
-    res.render('index');
-    // res.sendFile(path.join(__dirname, 'index.html'), function (err) {
-    //     if (err) {
-    //         console.error('Error sending home page:', JSON.stringify(error));
-    //     }
-    //     console.log('Sent client home page successfully');
-    // });
+    res.render('index', {
+        environment: environment
+    });
 });
 
 // blog api endpoint
