@@ -4,6 +4,7 @@ html
     title The Awesome Site of Richie Casto
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
+    // Load styles depending on environment
     if environment === 'production'
       link(rel='stylesheet', href='styles/website.css')
     else
@@ -12,6 +13,13 @@ html
   body
     .header
       h1 Climbing Code
+    
+    .nav-bar
+      ul.nav-list
+        li.nav-item Home
+        li.nav-item Projects
+        li.nav-item Resume
+    
     .about-me
       img.profile-pic(src='images/pic.jpg')
       .bio
@@ -19,13 +27,11 @@ html
         p.bio-info
           | Hey that's me haha.  I'm a Software Engineer based in Seattle working at Microsoft currently.
           | I love the web and enjoy programming for it.  Welcome to my website I hope you like it!
-    github-profile
-    template#blogTemplate
-      .blog
     
     // This must be included before all compiled scripts
     script(type='text/javascript', src='babel-polyfill/dist/polyfill.min.js')
 
+    // Load Javascript files depending on environment
     if environment === 'production'
         script(type='text/javascript', src='scripts/website-min.js')
     else

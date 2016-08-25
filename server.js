@@ -41,12 +41,18 @@ app.get('/', function (req, res) {
 });
 
 // Blog API endpoint
-app.get('/api/blog/:post', function (req, res) {
-    var post = poet.helpers.getPost(req.params.post);
-    if (post) {
-        res.json(post);
+app.get('/api/blog/:post?', function (req, res) {
+    if (req.params.post) {
+        var post = poet.helpers.getPost(req.params.post);
+        if (post) {
+            res.json(post);
+        } else {
+            res.sendStatus(404);
+        }
     } else {
-        res.sendStatus(404);
+         var numPosts = poet.helpers.getPostCount();
+         var posts = poet.helpers.getPosts(0, numPosts);
+         res.json(posts);
     }
 });
 
