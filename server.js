@@ -6,25 +6,23 @@ var port = process.env.PORT || 3000;
 var environment = process.env.NODE_ENV || 'development';
 var app = express();
 var poet = Poet(app, {
-   posts: './posts/',
-   postsPerPage: 5,
-   metaFormat: 'json'
+    posts: './posts/',
+    postsPerPage: 5,
+    metaFormat: 'json',
+    routes: {
+        '/blog/:post': 'blog',
+        '/blogs/:page': 'blogs'
+    }
 });
 
 // Setup PoetJS for Blogging
 poet.init().then(function () {
-   console.log('Poet blog engine initialized'); 
+    console.log('Poet blog engine initialized');
+    console.log('Post Count:', poet.helpers.getPostCount());
+    console.log('Page Count:', poet.helpers.getPageCount());
+    console.log('Options:', JSON.stringify(poet.helpers.options));
 }, function (err) {
     console.error(err);
-});
-
-poet.addRoute('/blog/:post', function (req, res) {
-    var post = poet.helpers.getPost(req.params.post);
-    if (post) {
-        res.render('blog', post);
-    } else {
-        res.sendStatus(404);
-    }
 });
 
 // Set views directory and view engine, used for rendering blog posts
@@ -37,28 +35,12 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // Homepage route
 app.get('/', function (req, res) {
-    res.render('index', {
+    res.render('layout', {
         environment: environment
     });
 });
 
-// Blog API endpoint
-app.get('/api/blog/:post?', function (req, res) {
-    if (req.params.post) {
-        var post = poet.helpers.getPost(req.params.post);
-        if (post) {
-            res.json(post);
-        } else {
-            res.sendStatus(404);
-        }
-    } else {
-         var numPosts = poet.helpers.getPostCount();
-         var posts = poet.helpers.getPosts(0, numPosts);
-         res.json(posts);
-    }
-});
-
 // Start the server
 app.listen(port, function () {
-  console.log('Server listening on port', port);
+    console.log('Server listening on port', port);
 });
