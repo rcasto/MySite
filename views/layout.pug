@@ -8,17 +8,18 @@ html
     if environment === 'production'
       link(rel='stylesheet', href='styles/website.css')
     else
-      link(rel="stylesheet" href="normalize.css/normalize.css")
-      link(rel="stylesheet" href="styles/styles.css")
+      link(rel='stylesheet' href='normalize.css/normalize.css')
+      link(rel='stylesheet' href='styles/styles.css')
   body
     .header
       h1 Climbing Code
     
     .nav-bar
       ul.nav-list
-        li.nav-item Home
-        li.nav-item Projects
-        li.nav-item Resume
+        li.nav-item 
+          a(href='/') Home
+        li.nav-item 
+          a(href='/images/resume.pdf') Resume
 
     block content
     

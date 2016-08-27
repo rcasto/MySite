@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     
 var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js'];
 var views = ['source/index.html', 'source/views/*.html', 'source/partial-views/*.html', 'source/components/*.html'];
-var images = ['source/images/*.jpg', 'source/images/*.png', 'source/images/*.svg'];
+var images = ['source/images/*.jpg', 'source/images/*.png', 'source/images/*.svg', 'source/images/resume.pdf'];
 var lessFiles = ['source/styles/*.less'];
 
 var output = ['dist'];
