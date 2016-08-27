@@ -12,6 +12,12 @@ var poet = Poet(app, {
 });
 
 // Setup PoetJS for Blogging
+poet.init().then(function () {
+   console.log('Poet blog engine initialized'); 
+}, function (err) {
+    console.error(err);
+});
+
 poet.addRoute('/blog/:post', function (req, res) {
     var post = poet.helpers.getPost(req.params.post);
     if (post) {
@@ -19,10 +25,6 @@ poet.addRoute('/blog/:post', function (req, res) {
     } else {
         res.sendStatus(404);
     }
-}).init().then(function () {
-   console.log('Poet blog engine initialized'); 
-}, function (err) {
-    console.error(err);
 });
 
 // Set views directory and view engine, used for rendering blog posts
