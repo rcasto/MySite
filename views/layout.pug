@@ -6,10 +6,10 @@ html
 
     // Load styles depending on environment
     if environment === 'production'
-      link(rel='stylesheet', href='styles/website.css')
+      link(rel='stylesheet', href='/styles/website.css')
     else
-      link(rel='stylesheet' href='normalize.css/normalize.css')
-      link(rel='stylesheet' href='styles/styles.css')
+      link(rel='stylesheet' href='/normalize.css/normalize.css')
+      link(rel='stylesheet' href='/styles/styles.css')
   body
     .header
       h1 Climbing Code
@@ -21,15 +21,15 @@ html
         li.nav-item 
           a(href='/images/resume.pdf') Resume
 
-    #content
+    block content
     
     // This must be included before all compiled scripts
-    script(type='text/javascript', src='babel-polyfill/dist/polyfill.min.js')
+    script(type='text/javascript', src='/babel-polyfill/dist/polyfill.min.js')
 
     // Load Javascript files depending on environment
     if environment === 'production'
-        script(type='text/javascript', src='scripts/website-min.js')
+        script(type='text/javascript', src='/scripts/website-min.js')
     else
-        script(type='text/javascript' src='scripts/util/helpers.js')
-        script(type='text/javascript' src='scripts/main.js')
-        script(type='text/javascript' src='scripts/blogFetch.js')
+        script(type='text/javascript' src='/scripts/util/helpers.js')
+        script(type='text/javascript' src='/scripts/main.js')
+        script(type='text/javascript' src='/scripts/blogFetch.js')
