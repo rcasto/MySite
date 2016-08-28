@@ -15,7 +15,7 @@ var poet = Poet(app, {
 function getPostsForPage(page) {
     var postsPerPage = poet.helpers.options.postsPerPage;
     return poet.helpers.getPosts(
-        (page - 1) * postsPerPage + 1,
+        (page - 1) * postsPerPage,
         page * postsPerPage
     );
 }
