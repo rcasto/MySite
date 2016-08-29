@@ -16,12 +16,13 @@ html
     
     .nav-bar
       ul.nav-list
-        li.nav-item 
-          a(href='/') Home
-        li.nav-item 
+        li.nav-item(tabindex='0', data-route='/') Home
+        li.nav-item(tabindex='0', data-route='/about') About
+        li.nav-item
           a(href='/images/resume.pdf') Resume
 
-    block content
+    .content
+      block content
     
     // This must be included before all compiled scripts
     script(type='text/javascript', src='/babel-polyfill/dist/polyfill.min.js')
@@ -30,6 +31,7 @@ html
     if environment === 'production'
         script(type='text/javascript', src='/scripts/website-min.js')
     else
+        script(type='text/javascript' src='/page/page.js')
         script(type='text/javascript' src='/scripts/util/helpers.js')
         script(type='text/javascript' src='/scripts/main.js')
         script(type='text/javascript' src='/scripts/blogFetch.js')

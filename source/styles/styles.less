@@ -6,19 +6,7 @@
     box-sizing: border-box; 
 }
 
-html {
-    @media (min-width: @website-max-width) {
-        background: url("../images/code-and-beer.jpg") no-repeat center center fixed;;
-        background-size: cover; 
-    }
-}
 body {
-    background-color: #3A7041;
-    max-width: @website-max-width;
-    margin: 0 auto;
-    border-width: 0 2px;
-    border-style: solid;
-    border-color: #4BBD5A;
     padding: 12px;
 }
 html, body {
@@ -38,6 +26,14 @@ html, body {
 .nav-bar {
     .nav-list {
         list-style: none;
+        margin: 0;
+
+        .nav-item {
+            display: inline-block;
+            width: 80px;
+            text-align: center;
+            padding: 5px;
+        }
     }
 }
 

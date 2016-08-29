@@ -77,6 +77,12 @@ app.get('/', function (req, res) {
     });
 });
 
+app.get('/about', function (req, res) {
+    res.render('about', {
+        environment: environment
+    });
+});
+
 // Start the server
 app.listen(port, function () {
     console.log('Server listening on port', port);

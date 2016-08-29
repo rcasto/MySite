@@ -2,7 +2,8 @@
   "title" : "exp",
   "tags"  : [ "blog", "experiment" ],
   "category" : "javascript",
-  "date" : "8-16-16"
+  "date" : "8-16-16",
+  "previewLength" : "120"
 }}}
 
 # DistributedExperiment
