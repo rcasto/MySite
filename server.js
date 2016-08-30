@@ -68,9 +68,20 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
+// hasLayout middleware
+app.use(function (req, res, next) {
+    req.hasLayout = !(req.query.haslayout &&
+                    req.query.haslayout.toLowerCase() === 'false');
+    next();
+});
+
 // Homepage route
 app.get('/', function (req, res) {
-    res.render('blogs', {
+    var view = 'blogs-page';
+    if (!req.hasLayout) {
+        view = 'blogs';
+    }
+    res.render(view, {
         environment: environment,
         posts: getPostsForPage(1),
         page: 1
@@ -78,7 +89,11 @@ app.get('/', function (req, res) {
 });
 
 app.get('/about', function (req, res) {
-    res.render('about', {
+    var view = 'about-page';
+    if (!req.hasLayout) {
+        view = 'about';
+    }
+    res.render(view, {
         environment: environment
     });
 });

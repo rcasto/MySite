@@ -21,7 +21,7 @@
     "normalize.css": "^4.2.0",
     "page": "^1.7.1",
     "poet": "^2.0.1",
-    "pug": "^2.0.0-beta5"
+    "pug": "^2.0.0-beta6"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.13.2",
