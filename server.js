@@ -75,28 +75,35 @@ app.use(function (req, res, next) {
     next();
 });
 
-// Homepage route
-app.get('/', function (req, res) {
-    var view = 'blogs-page';
-    if (!req.hasLayout) {
-        view = 'blogs';
+// Choose correct view middleware
+app.use(function (req, res, next) {
+    var hasLayout = req.hasLayout, view;
+    switch(req.path) {
+        case '/':
+            view = hasLayout ? 'blogs-page' : 'blogs';
+            break;
+        case '/about':
+            view = hasLayout ? 'about-page' : 'about';
+            break;
     }
-    res.render(view, {
-        environment: environment,
-        posts: getPostsForPage(1),
-        page: 1
-    });
+    req.view = view;
+    next();
 });
 
-app.get('/about', function (req, res) {
-    var view = 'about-page';
-    if (!req.hasLayout) {
-        view = 'about';
-    }
-    res.render(view, {
-        environment: environment
-    });
-});
+function onRoute(req, res, data) {
+    res.render(req.view, data);
+}
+
+// Homepage route
+app.get('/', (req, res) => onRoute(req, res, {
+    environment: environment,
+    posts: getPostsForPage(1),
+    page: 1
+}));
+
+app.get('/about', (req, res) => onRoute(req, res, {
+    environment: environment
+}));
 
 // Start the server
 app.listen(port, function () {

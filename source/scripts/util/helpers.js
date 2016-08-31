@@ -1,5 +1,4 @@
 var Helpers = (function () {
-    
     // This function will print out a date string in the following form
     // ex) January 15, 2017
     // If no date object is passed in the current date will be used
@@ -32,10 +31,19 @@ var Helpers = (function () {
         }
         return bag;
     }
+
+    function isLocalStorageSupported() {
+        try {
+            return 'localStorage' in window && 
+                    window['localStorage'] !== null;
+        } catch(e) {
+            return false;
+        }
+    }
     
     return {
         simpleDateString: simpleDateString,
-        queryBag: queryBag
+        queryBag: queryBag,
+        isLocalStorageSupported: isLocalStorageSupported
     };
-    
 }());

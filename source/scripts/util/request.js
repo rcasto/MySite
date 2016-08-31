@@ -1,5 +1,4 @@
 var Request = (function () {
-    
     function get(url) {
         return new Promise(function (resolve, reject) {
             var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
@@ -39,5 +38,4 @@ var Request = (function () {
         get: get,
         post: post
     };
-    
 }());
