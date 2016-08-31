@@ -90,6 +90,17 @@ app.use(function (req, res, next) {
     next();
 });
 
+// Request Logger middleware
+app.use(function (req, res, next) {
+    console.log(JSON.stringify({
+        userAgent: req.headers['user-agent'],
+        ipAddress: req.ip,
+        path: req.path,
+        query: JSON.stringify(req.query)
+    }));
+    next();
+});
+
 function onRoute(req, res, data) {
     res.render(req.view, data);
 }
