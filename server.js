@@ -20,6 +20,19 @@ function getPostsForPage(page) {
     );
 }
 
+function getBasePath(path) {
+    if (path) {
+        let pathTokens = path.split('/');
+        let pathToken = pathTokens[0];
+        if (path.length > 0 &&
+            path[0] === '/') {
+            pathToken = pathTokens[1];
+        }
+        return '/' + pathToken;
+    }
+    return null;
+}
+
 function isValidPage(page) {
     var numPages = poet.helpers.getPageCount();
     return page > 0 && page <= numPages;
@@ -33,31 +46,6 @@ poet.init().then(function () {
     console.log('Options:', JSON.stringify(poet.helpers.options));
 }, function (err) {
     console.error(err);
-});
-
-poet.addRoute('/blog/:post', function (req, res) {
-    var post = poet.helpers.getPost(req.params.post);
-    if (post) {
-        res.render('blog', {
-            environment: environment,
-            post: post
-        });
-    } else {
-        res.status(404).send('Thats not a valid post title');
-    }
-});
-
-poet.addRoute('/blogs/:page', function (req, res) {
-    var page = req.params.page;
-    if (isValidPage(page)) {
-        res.render('blogs', {
-            environment: environment,
-            posts: getPostsForPage(page),
-            page: page
-        });
-    } else {
-        res.status(404).send('Thats an invalid page number');
-    }
 });
 
 // Set views directory and view engine, used for rendering blog posts
@@ -78,12 +66,19 @@ app.use(function (req, res, next) {
 // Choose correct view middleware
 app.use(function (req, res, next) {
     var hasLayout = req.hasLayout, view;
-    switch(req.path) {
+    var basePath = getBasePath(req.path);
+    switch(basePath) {
         case '/':
             view = hasLayout ? 'blogs-page' : 'blogs';
             break;
         case '/about':
             view = hasLayout ? 'about-page' : 'about';
+            break;
+        case '/blogs':
+            view = hasLayout ? 'blogs-page' : 'blogs';
+            break;
+        case '/blog':
+            view = hasLayout ? 'blog-page' : 'blog';
             break;
     }
     req.view = view;
@@ -115,6 +110,31 @@ app.get('/', (req, res) => onRoute(req, res, {
 app.get('/about', (req, res) => onRoute(req, res, {
     environment: environment
 }));
+
+poet.addRoute('/blogs/:page', (req, res) => {
+    var page = req.params.page;
+    if (isValidPage(page)) {
+        onRoute(req, res, {
+            environment: environment,
+            posts: getPostsForPage(page),
+            page: page
+        });
+    } else {
+        res.status(404).send('Thats an invalid page number');
+    }
+});
+
+poet.addRoute('/blog/:post', (req, res) => {
+    var post = poet.helpers.getPost(req.params.post);
+    if (post) {
+        onRoute(req, res, {
+            environment: environment,
+            post: post
+        });
+    } else {
+        res.status(404).send('Thats not a valid post title');
+    }
+});
 
 // Start the server
 app.listen(port, function () {

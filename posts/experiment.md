@@ -2,8 +2,7 @@
   "title" : "exp",
   "tags"  : [ "blog", "experiment" ],
   "category" : "javascript",
-  "date" : "8-16-16",
-  "previewLength" : "120"
+  "date" : "8-16-16"
 }}}
 
 # DistributedExperiment
@@ -11,6 +10,8 @@ An experiment with distributed web computing
 
 # Pre-requisites
 [Node.js **Current**](https://nodejs.org/) must be installed
+
+<!--more-->
 
 # Getting Started
 First run the following command to install all necessary dependencies

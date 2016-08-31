@@ -9,4 +9,6 @@ Testing
 
 # Hi again bob
 
+<!--more-->
+
 `There actually is a spoon`

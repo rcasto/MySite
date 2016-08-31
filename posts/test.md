@@ -9,4 +9,6 @@ Testing
 
 # Hi bob
 
+<!--more-->
+
 `There is no spoon`

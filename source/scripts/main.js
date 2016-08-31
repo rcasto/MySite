@@ -40,12 +40,14 @@
         }
     }
 
-    // Check if current path has been cached in local storage yet
-    if (isLocalStorageSupported && !localStorage.getItem(path)) {
+    // Cache the latest data for the current page
+    if (isLocalStorageSupported) {
         localStorage.setItem(path, contentHtml);
     }
 
     // Client side routes
     page('/', onRoute);
     page('/about', onRoute);
+    page('/blogs/:page', onRoute);
+    page('/blog/:post', onRoute);
 }());
