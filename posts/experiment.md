@@ -8,10 +8,10 @@
 # DistributedExperiment
 An experiment with distributed web computing
 
+<!--more-->
+
 # Pre-requisites
 [Node.js **Current**](https://nodejs.org/) must be installed
-
-<!--more-->
 
 # Getting Started
 First run the following command to install all necessary dependencies
