@@ -1,6 +1,5 @@
 @mobile-breakpoint: 360px;
 @website-max-width: 1024px;
-@height-breakpoint: 420px;  // Should be near height of content of page
 
 *, *:before, *:after {
     box-sizing: border-box; 
@@ -11,11 +10,6 @@ body {
     max-width: @website-max-width;
     width: 100%;
     margin: 0 auto;
-}
-html, body {
-    @media (min-height: @height-breakpoint) {
-        height: 100%;
-    }
 }
 
 .header {

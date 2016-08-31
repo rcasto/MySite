@@ -5,7 +5,7 @@
   "date" : "8-16-16"
 }}}
 
-# DistributedExperiment
+# Distributed Experiment
 An experiment with distributed web computing
 
 <!--more-->
