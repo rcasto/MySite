@@ -9,7 +9,15 @@ var poet = Poet(app, {
     posts: './posts/',
     postsPerPage: 5,
     metaFormat: 'json',
-    routes: { }  // Use custom routes defined below
+    routes: { },  // Use custom routes defined below
+    readMoreTag: '<!--more-->',
+    readMoreLink: function (post) {
+        return `
+            <a class='read-more-link' tabindex='0' href data-link='${post.url}'>
+                Read more
+            </a>
+        `;
+    }
 });
 
 function getPostsForPage(page) {

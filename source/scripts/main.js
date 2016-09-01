@@ -15,6 +15,20 @@
         }
     });
 
+    // Attach blog navigation to "read more" links
+    function attachReadMoreLinkAction() {
+        var readMoreLinks = document.querySelectorAll('.read-more-link');
+        readMoreLinks.forEach(function (readMoreLink) {
+            var link = readMoreLink.dataset.link;
+            if (link) {
+                readMoreLink.onclick = function (event) {
+                    page(link);
+                    return false;
+                };
+            }
+        });
+    }
+
     // Route handling
     function onSuccess(ctx, html) {
         // Store the result in local storage, so we don't have to fetch it again
@@ -44,10 +58,18 @@
     if (isLocalStorageSupported) {
         localStorage.setItem(path, contentHtml);
     }
+    
+    attachReadMoreLinkAction();
 
     // Client side routes
-    page('/', onRoute);
+    page('/', (ctx, next) => {
+        onRoute(ctx);
+        next();
+    }, attachReadMoreLinkAction);
     page('/about', onRoute);
-    page('/blogs/:page', onRoute);
+    page('/blogs/:page', (ctx, next) => {
+        onRoute(ctx);
+        next();
+    }, attachReadMoreLinkAction);
     page('/blog/:post', onRoute);
 }());
