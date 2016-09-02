@@ -14,6 +14,7 @@ body {
 
 .header {
     text-align: center;
+    margin-bottom: 12px;
     
     h1 {
         margin: 0;
@@ -24,12 +25,24 @@ body {
     .nav-list {
         list-style: none;
         margin: 0;
+        padding: 0;
+        text-align: center;
 
         .nav-item {
             display: inline-block;
-            width: 80px;
-            text-align: center;
-            padding: 5px;
+            width: 100px;
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 8px;
+            margin-right: 5px;
+
+            a {
+                text-decoration: none;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
         }
     }
 }
@@ -84,12 +97,11 @@ body {
 
 .blog-entries {
     .blog-preview {
-        padding: 5px;
-        margin-bottom: 5px;
+        padding: 5px 5px 15px 5px;
         border-bottom: 1px solid black;
 
         &:last-child {
-            margin-bottom: 0;
+            padding-bottom: 0;
             border-bottom: none;
         }
 
@@ -97,8 +109,4 @@ body {
             text-decoration: underline;
         }
     }
-}
-
-.blog-entry {
-
 }
