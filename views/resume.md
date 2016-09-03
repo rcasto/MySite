@@ -1,7 +1,5 @@
 **Richard Casto**
 
-301.465.0619 | [rcasto92@gmail.com](mailto:rcasto92@gmail.com)
-
 **Summary:       **
 
 **       ** Software engineer with a strong background in web development, as well as, passion for creating responsive, dynamic, and good looking web experiences.
