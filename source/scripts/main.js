@@ -24,12 +24,15 @@
             var route = navItem.dataset.route;
             if (route) {
                 navItem.onkeydown = function (event) {
-                    if (event.which === 13) {
+                    if (event.which === 13 &&
+                        path !== route) {
                         page(route);
                     }
                 };
                 navItem.onclick = function () {
-                    page(route);
+                    if (path !== route) {
+                        page(route);
+                    }
                 };
             }
         });
@@ -83,6 +86,7 @@
                 .then((html) => onSuccess(ctx, html), 
                       (error) => onFailure(ctx, error));
         }
+        path = ctx.path;
     }
 
     // Client side routes
