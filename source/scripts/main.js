@@ -91,6 +91,7 @@
         next();
     }, attachReadMoreLinkAction);
     page('/about', onRoute);
+    page('/resume', onRoute);
     page('/blogs/:page', (ctx, next) => {
         onRoute(ctx);
         next();

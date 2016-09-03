@@ -16,13 +16,11 @@ html
       h1 Climbing Code
     
     .nav-bar
-      ul.nav-list
-        li.nav-item(tabindex='0', data-route='/')
+        button.nav-item(data-route='/')
           <i class="fa fa-home" aria-hidden="true"></i> Home
-        li.nav-item(tabindex='0', data-route='/about')
+        button.nav-item(data-route='/about')
           <i class="fa fa-male" aria-hidden="true"></i> About
-        li.nav-item
-          a(href='/images/resume.pdf') Resume
+        button.nav-item(data-route='/resume') Resume
 
     .content
       block content

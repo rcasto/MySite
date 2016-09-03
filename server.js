@@ -82,6 +82,9 @@ app.use(function (req, res, next) {
         case '/about':
             view = hasLayout ? 'about-page' : 'about';
             break;
+        case '/resume':
+            view = hasLayout ? 'resume-page' : 'resume';
+            break;
         case '/blogs':
             view = hasLayout ? 'blogs-page' : 'blogs';
             break;
@@ -108,17 +111,24 @@ function onRoute(req, res, data) {
     res.render(req.view, data);
 }
 
-// Homepage route
+// Home page route, same as /blogs/1
 app.get('/', (req, res) => onRoute(req, res, {
     environment: environment,
     posts: getPostsForPage(1),
     page: 1
 }));
 
+// About page route
 app.get('/about', (req, res) => onRoute(req, res, {
     environment: environment
 }));
 
+// Resume page route
+app.get('/resume', (req, res) => onRoute(req, res, {
+    environment: environment
+}));
+
+// Multi-blog route
 poet.addRoute('/blogs/:page', (req, res) => {
     var page = req.params.page;
     if (isValidPage(page)) {
@@ -132,6 +142,7 @@ poet.addRoute('/blogs/:page', (req, res) => {
     }
 });
 
+// Individual blog route
 poet.addRoute('/blog/:post', (req, res) => {
     var post = poet.helpers.getPost(req.params.post);
     if (post) {

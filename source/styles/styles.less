@@ -23,27 +23,23 @@ h1 {
 .nav-bar {
     margin-bottom: 12px;
 
-    .nav-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        text-align: center;
+    .nav-item {
+        display: inline-block;
+        width: 100px;
+        padding: 8px;
+        border: 1px solid black;
+        border-radius: 8px;
+        margin-right: 5px;
+        background-color: white;
 
-        .nav-item {
-            display: inline-block;
-            width: 100px;
-            padding: 8px;
-            border: 1px solid black;
-            border-radius: 8px;
-            margin-right: 5px;
-
-            a {
-                text-decoration: none;
-            }
-
-            &:last-child {
-                margin-right: 0;
-            }
+        &:hover, &:focus {
+            background-color: #D7DCDE;
+        }
+        &:focus:active, &:active {
+            background-color: #B9BCBD;
+        }
+        &:last-child {
+            margin-right: 0;
         }
     }
 }
@@ -95,7 +91,7 @@ h1 {
 
 .blog-entries {
     .blog-preview {
-        padding: 0 5px 15px 5px;
+        padding-bottom: 15px;
         border-bottom: 1px solid black;
 
         &:last-child {
