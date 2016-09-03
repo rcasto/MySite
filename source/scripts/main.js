@@ -9,6 +9,11 @@
     navItems.forEach(function (navItem) {
         var route = navItem.dataset.route;
         if (route) {
+            navItem.onkeydown = function (event) {
+                if (event.which === 13) {
+                    page(route);
+                }
+            };
             navItem.onclick = function () {
                 page(route);
             };
