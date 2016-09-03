@@ -1,0 +1,10 @@
+{{{
+  "title" : "write",
+  "tags"  : [ "life", "writing", "stoned" ],
+  "category" : "life",
+  "date" : "9-3-16"
+}}}
+
+# Let us write!
+
+Write and write sometimes we don't know what to write or have any motivation to do so.  Even when you don't know what to write about just write some thought in your head such as not wanting to write or not knowing what to write about such as I have.<!--more--> Gets the creative juices flowing a little bit and gets you writing of course.  Once you start writing it kind of starts to flow and become rhythmic.  The keys pressing against the keyboard and making their percussive key presses or the pencil writing on paper leaving its traces behind and encoding your creative thoughts.  Writing is amazing and I do not do it enough.  I love reading other peoples writing as well.  I think that feeds into it a little bit.  The more you read the more you feel compelled to write because you now have the thoughts of others after consuming them from a book or article or really any piece of writing.  You may not agree with them, but they get you thinking about something or perhaps not.  Some are not so into your writing while others may be.  Different strokes for different folks man.  You really can't please everyone, but you can sure as hell try to.  At this point this story or this written piece is getting a little bit ridiculous and I am about to stop, but something keeps me compelled to move forward.  To write more, to make the cursor on the screen continue to move to the right then jump back down to the next line.  I don't know what it is, but I kind of like writing like this right now I find it pretty interesting.  Readers of this, I'm kind of curious what you are thinking about this right now.  I do want to know.  At this point I am pretty stoned and don’t even really remember a lot of what I said previously, but I have a general gist and that's not that great.  We are getting way off topic here, but were we ever on a topic, I think so, but forget it.  Ok yeah, I'm definitely done now.  I hope this was some kind of rollercoaster of a read at least.
