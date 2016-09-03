@@ -1,24 +1,39 @@
 (function () {
+    var cacheExpirationTime = 900000; // 15 minutes
     var isLocalStorageSupported = Helpers.isLocalStorageSupported();
-    var navItems = document.querySelectorAll('.nav-item');
     var contentContainer = document.querySelector('.content');
     var contentHtml = contentContainer.innerHTML;
     var path = window.location.pathname;
 
-    // Attach route navigation to nav-bar
-    navItems.forEach(function (navItem) {
-        var route = navItem.dataset.route;
-        if (route) {
-            navItem.onkeydown = function (event) {
-                if (event.which === 13) {
-                    page(route);
-                }
-            };
-            navItem.onclick = function () {
-                page(route);
-            };
+    function init() {
+        // Cache the latest data for the current page
+        if (isLocalStorageSupported) {
+            localStorage.setItem(path, JSON.stringify({
+                data: contentHtml,
+                timestamp: (new Date()).getTime()
+            }));
         }
-    });
+        attachNavBarAction();
+        attachReadMoreLinkAction();
+    }
+
+    // Attach route navigation to nav-bar
+    function attachNavBarAction() {
+        var navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(function (navItem) {
+            var route = navItem.dataset.route;
+            if (route) {
+                navItem.onkeydown = function (event) {
+                    if (event.which === 13) {
+                        page(route);
+                    }
+                };
+                navItem.onclick = function () {
+                    page(route);
+                };
+            }
+        });
+    }
 
     // Attach blog navigation to "read more" links
     function attachReadMoreLinkAction() {
@@ -34,11 +49,23 @@
         });
     }
 
+    function isCached(key) {
+        if (isLocalStorageSupported) {
+            var cachedItem = JSON.parse(localStorage.getItem(key));
+            return !!(cachedItem && 
+                   (new Date()).getTime() - cachedItem.timestamp < cacheExpirationTime);
+        }
+        return false;
+    }
+
     // Route handling
     function onSuccess(ctx, html) {
         // Store the result in local storage, so we don't have to fetch it again
         if (isLocalStorageSupported) {
-            localStorage.setItem(ctx.path, html);
+            localStorage.setItem(ctx.path, JSON.stringify({
+                data: html,
+                timestamp: (new Date()).getTime()
+            }));
         }
         contentContainer.innerHTML = html;
     }
@@ -49,22 +76,14 @@
 
     function onRoute(ctx) {
         // if local storage is supported, let's cache the data
-        if (isLocalStorageSupported &&
-            localStorage.getItem(ctx.path)) {
-            onSuccess(ctx, localStorage.getItem(ctx.path));
+        if (isCached(ctx.path)) {
+            onSuccess(ctx, JSON.parse(localStorage.getItem(ctx.path)).data);
         } else {
             Request.get(ctx.path + '?haslayout=false')
                 .then((html) => onSuccess(ctx, html), 
                       (error) => onFailure(ctx, error));
         }
     }
-
-    // Cache the latest data for the current page
-    if (isLocalStorageSupported) {
-        localStorage.setItem(path, contentHtml);
-    }
-    
-    attachReadMoreLinkAction();
 
     // Client side routes
     page('/', (ctx, next) => {
@@ -77,4 +96,7 @@
         next();
     }, attachReadMoreLinkAction);
     page('/blog/:post', onRoute);
+
+    // Initialize
+    init();
 }());
