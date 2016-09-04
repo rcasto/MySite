@@ -15,6 +15,8 @@
         }
         attachNavBarAction();
         attachReadMoreLinkAction();
+        // Start routing
+        page();
     }
 
     // Attach route navigation to nav-bar
