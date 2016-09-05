@@ -76,6 +76,13 @@
     }
 
     function onFailure(ctx, error) {
+        // Fallback to cached content in case of failure if available
+        if (isLocalStorageSupported) {
+            let fallback = localStorage.getItem(ctx.path);
+            if (fallback) {
+                contentContainer.innerHTML = JSON.parse(fallback).data;
+            }
+        }
         console.error(JSON.stringify(ctx), error);
     }
 
