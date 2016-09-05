@@ -23,14 +23,15 @@ h1 {
 .nav-bar {
     width: 90%;
     margin: 0 auto 12px auto;
+    text-align: center;
 
     .nav-item {
         display: inline-block;
-        width: 100px;
+        width: 120px;
         padding: 8px;
         border: 1px solid black;
         border-radius: 8px;
-        margin-right: 5px;
+        margin-right: 8px;
         background-color: white;
 
         &:hover, &:focus {
@@ -92,9 +93,12 @@ h1 {
 
 .blog-entries {
     .blog-preview {
-        padding-bottom: 15px;
+        padding: 15px 0;
         border-bottom: 1px solid black;
 
+        &:first-child {
+            padding-top: 0;
+        }
         &:last-child {
             padding-bottom: 0;
             border-bottom: none;
