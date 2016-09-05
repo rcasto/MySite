@@ -10,8 +10,6 @@ var Helpers = (function () {
     }
     
     return {
-        simpleDateString: simpleDateString,
-        queryBag: queryBag,
         isLocalStorageSupported: isLocalStorageSupported
     };
 }());
