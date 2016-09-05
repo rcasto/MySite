@@ -56,7 +56,7 @@
 
     function isCached(key) {
         if (isLocalStorageSupported) {
-            var cachedItem = JSON.parse(localStorage.getItem(key));
+            let cachedItem = JSON.parse(localStorage.getItem(key));
             return !!(cachedItem && 
                    (new Date()).getTime() - cachedItem.timestamp < cacheExpirationTime);
         }
