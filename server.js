@@ -20,6 +20,11 @@ var poet = Poet(app, {
     }
 });
 
+function stringToNum(str) {
+    var num = parseInt(str, 10);
+    return (!isNaN(num) && str === ('' + num)) ? num : NaN;
+}
+
 function getPostsForPage(page) {
     var postsPerPage = poet.helpers.options.postsPerPage;
     return poet.helpers.getPosts(
@@ -111,12 +116,21 @@ function onRoute(req, res, data) {
     res.render(req.view, data);
 }
 
+function onBlogsRoute(req, res, page) {
+    if (isValidPage(page)) {
+        onRoute(req, res, {
+            environment: environment,
+            posts: getPostsForPage(page),
+            page: page,
+            numPages: poet.helpers.getPageCount()
+        });
+    } else {
+        res.status(404).send('Thats an invalid page number');
+    }
+}
+
 // Home page route, same as /blogs/1
-app.get('/', (req, res) => onRoute(req, res, {
-    environment: environment,
-    posts: getPostsForPage(1),
-    page: 1
-}));
+app.get('/', (req, res) => onBlogsRoute(req, res, 1));
 
 // About page route
 app.get('/about', (req, res) => onRoute(req, res, {
@@ -130,15 +144,11 @@ app.get('/resume', (req, res) => onRoute(req, res, {
 
 // Multi-blog route
 poet.addRoute('/blogs/:page', (req, res) => {
-    var page = req.params.page;
-    if (isValidPage(page)) {
-        onRoute(req, res, {
-            environment: environment,
-            posts: getPostsForPage(page),
-            page: page
-        });
+    var page = stringToNum(req.params.page);
+    if (isNaN(page)) {
+        res.status(404).send('Invalid page requested.');
     } else {
-        res.status(404).send('Thats an invalid page number');
+        onBlogsRoute(req, res, page);
     }
 });
 

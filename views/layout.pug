@@ -12,10 +12,10 @@ html
       link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
       link(rel='stylesheet' href='/styles/styles.css')
   body
-    .header
+    div(class='header')
       h1 Climbing Code
     
-    .nav-bar
+    div(class='nav-bar')
         button.nav-item(data-route='/')
           <i class="fa fa-home" aria-hidden="true"></i> Home
         button.nav-item(data-route='/about')
@@ -23,7 +23,7 @@ html
         button.nav-item(data-route='/resume')
           <i class="fa fa-code" aria-hidden="true"></i> Resume
 
-    .content
+    div(class='content')
       block content
     
     // This must be included before all compiled scripts

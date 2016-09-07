@@ -8,7 +8,7 @@
     function init() {
         // Cache the latest data for the current page
         if (isLocalStorageSupported) {
-            localStorage.setItem(path, JSON.stringify({
+            localStorage.setItem(getPath(path), JSON.stringify({
                 data: contentHtml,
                 timestamp: (new Date()).getTime()
             }));
@@ -54,6 +54,23 @@
         });
     }
 
+    function attachPaginationAction() {
+        var pageBack = document.querySelector('.page-back');
+        var pageForward = document.querySelector('.page-forward');
+        if (pageBack) {
+            let prevPage = parseInt(pageBack.dataset.nextPage, 10);
+            pageBack.onclick = () => onBlogsRoute({
+                path: `/blogs/${prevPage}`
+            });
+        }
+        if (pageForward) {
+            let nextPage = parseInt(pageForward.dataset.nextPage, 10);
+            pageForward.onclick = () => onBlogsRoute({
+                path: `/blogs/${nextPage}`
+            });
+        }
+    }
+
     function isCached(key) {
         if (isLocalStorageSupported) {
             let cachedItem = JSON.parse(localStorage.getItem(key));
@@ -63,11 +80,18 @@
         return false;
     }
 
+    function getPath(path) {
+        if (path === '/') {
+            return '/blogs/1';
+        }
+        return path ? path : null;
+    }
+
     // Route handling
     function onSuccess(ctx, html) {
         // Store the result in local storage, so we don't have to fetch it again
         if (isLocalStorageSupported) {
-            localStorage.setItem(ctx.path, JSON.stringify({
+            localStorage.setItem(getPath(ctx.path), JSON.stringify({
                 data: html,
                 timestamp: (new Date()).getTime()
             }));
@@ -78,37 +102,41 @@
     function onFailure(ctx, error) {
         // Fallback to cached content in case of failure if available
         if (isLocalStorageSupported) {
-            let fallback = localStorage.getItem(ctx.path);
+            let fallback = localStorage.getItem(getPath(ctx.path));
             if (fallback) {
                 contentContainer.innerHTML = JSON.parse(fallback).data;
             }
         }
         console.error(JSON.stringify(ctx), error);
+        return error;
     }
 
     function onRoute(ctx) {
-        // if local storage is supported, let's cache the data
-        if (isCached(ctx.path)) {
-            onSuccess(ctx, JSON.parse(localStorage.getItem(ctx.path)).data);
-        } else {
-            Request.get(ctx.path + '?haslayout=false')
-                .then((html) => onSuccess(ctx, html), 
-                      (error) => onFailure(ctx, error));
-        }
-        path = ctx.path;
+        return new Promise(function (resolve, reject) {
+            // if local storage is supported, let's cache the data
+            path = getPath(ctx.path);
+            if (isCached(path)) {
+                resolve(onSuccess(ctx, JSON.parse(localStorage.getItem(path)).data));
+            } else {
+                Request.get(path + '?haslayout=false')
+                    .then((html) => resolve(onSuccess(ctx, html)), 
+                        (error) => reject(onFailure(ctx, error)));
+            }
+        });
+    }
+
+    function onBlogsRoute(ctx) {
+        return onRoute(ctx).then(function () {
+            attachReadMoreLinkAction();
+            attachPaginationAction();
+        });;
     }
 
     // Client side routes
-    page('/', (ctx, next) => {
-        onRoute(ctx);
-        next();
-    }, attachReadMoreLinkAction);
+    page('/', onBlogsRoute);
     page('/about', onRoute);
     page('/resume', onRoute);
-    page('/blogs/:page', (ctx, next) => {
-        onRoute(ctx);
-        next();
-    }, attachReadMoreLinkAction);
+    page('/blogs/:page', onBlogsRoute);
     page('/blog/:post', onRoute);
 
     // Initialize
