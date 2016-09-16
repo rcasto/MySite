@@ -10,7 +10,7 @@ var environment = process.env.NODE_ENV || 'development';
 var app = express();
 var poet = Poet(app, {
     posts: './posts/',
-    postsPerPage: 2,
+    postsPerPage: 5,
     metaFormat: 'json',
     routes: { },  // Use custom routes defined below
     readMoreTag: '<!--more-->',
