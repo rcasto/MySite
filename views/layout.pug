@@ -8,9 +8,10 @@ html
     if environment === 'production'
       link(rel='stylesheet', href='/styles/website.css')
     else
-      link(rel='stylesheet' href='/normalize.css/normalize.css')
+      link(rel='stylesheet', href='/normalize.css/normalize.css')
       link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
-      link(rel='stylesheet' href='/styles/styles.css')
+      link(rel='stylesheet', href='/styles/styles.css')
+      link(rel="import", href="/components/pageControls/pageControls.html")
   body
     div(class='header')
       h1 Climbing Code
@@ -26,14 +27,13 @@ html
     div(class='content')
       block content
     
+    page-controls(data-page="3" data-total-pages="42")
+    
     // This must be included before all compiled scripts
     script(type='text/javascript', src='/babel-polyfill/dist/polyfill.min.js')
 
     // Load Javascript files depending on environment
     if environment === 'production'
-        script(type='text/javascript', src='/scripts/website-min.js')
+      script(type='text/javascript', src='/scripts/website-min.js')
     else
-        script(type='text/javascript' src='/page/page.js')
-        script(type='text/javascript' src='/scripts/util/helpers.js')
-        script(type='text/javascript' src='/scripts/util/request.js')
-        script(type='text/javascript' src='/scripts/main.js')
+      link(rel="import", href="/devScripts.html")

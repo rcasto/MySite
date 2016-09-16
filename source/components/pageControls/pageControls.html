@@ -1,0 +1,22 @@
+<template class="page-controls-template">
+    <style>@import "/font-awesome/css/font-awesome.min.css";</style>
+    <style>@import "/components/pageControls/pageControls.css";</style>
+    <div class="page-controls">
+        <div class="clearfix">
+            <button class="page-control page-back">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </button>
+            <button class="page-control page-forward">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="page-info">
+            <span class="current-page"></span>
+            <span>of </span>
+            <span class="total-pages"></span>
+        </div>
+    </div>
+</template>
+<script type="text/javascript" src="/webcomponents.js/webcomponents.js"></script>
+<script type="text/javascript" src="/scripts/util/request.js"></script>
+<script type="text/javascript" src="/components/pageControls/pageControls.js"></script>

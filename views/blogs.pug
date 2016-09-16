@@ -1,16 +1,3 @@
-- var prevPage = page - 1
-- var nextPage = page + 1
-
 div(class='blog-entries')
     each post in posts
         div(class='blog-preview') !{ post.preview }
-
-div(class="page-controls")
-    div(class="clearfix")
-        if page > 1
-            button(class="page-control page-back" data-next-page=`${prevPage}`)
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-        if page < numPages
-            button(class="page-control page-forward" data-next-page=`${nextPage}`)
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-    div(class="page-info") #{ page } of #{ numPages }

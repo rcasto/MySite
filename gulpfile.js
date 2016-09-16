@@ -10,10 +10,10 @@ var gulp = require('gulp'),
     cssnano = require('gulp-cssnano')
     merge2 = require('merge2');
     
-var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js'];
-var views = ['source/index.html', 'source/views/*.html', 'source/partial-views/*.html', 'source/components/*.html'];
-var images = ['source/images/*.jpg', 'source/images/*.png', 'source/images/*.svg', 'source/images/resume.pdf'];
-var lessFiles = ['source/styles/*.less'];
+var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js', 'source/components/**/*.js'];
+var views = ['source/devScripts.html', 'source/components/**/*.html'];
+var images = ['source/images/*.jpg', 'source/images/*.svg'];
+var lessFiles = ['source/styles/*.less', 'source/components/**/*.less'];
 
 var output = ['dist'];
 

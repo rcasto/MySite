@@ -1,22 +1,41 @@
 (function () {
     var cacheExpirationTime = 900000; // 15 minutes
     var isLocalStorageSupported = Helpers.isLocalStorageSupported();
-    var contentContainer = document.querySelector('.content');
-    var contentHtml = contentContainer.innerHTML;
     var path = window.location.pathname;
+    var pageControls = document.querySelector('page-controls');
+
+    // Page elements
+    var contentContainer = document.querySelector('.content');
 
     function init() {
         // Cache the latest data for the current page
         if (isLocalStorageSupported) {
             localStorage.setItem(getPath(path), JSON.stringify({
-                data: contentHtml,
+                data: contentContainer.innerHTML,
                 timestamp: (new Date()).getTime()
             }));
         }
+        // Fetch the total # of pages from the server
+        Helpers.getPageCount().then(function (pageCount) {
+            pageControls.dataset.totalPages = pageCount;
+        });
+        pageControls.addEventListener('navigate-page', function (event) {
+            var page = event.detail;
+            onBlogsRoute({
+                path: `/blogs/${page}`,
+                params: {
+                    page: page
+                }
+            });
+        });
+        // Attach actions
         attachNavBarAction();
         attachReadMoreLinkAction();
-        // Start routing
-        page();
+        // Start routing, the dispatch of false prevents client side routes from 
+        // running on initial page load from server
+        page({
+            // dispatch: false
+        });
     }
 
     // Attach route navigation to nav-bar
@@ -54,23 +73,6 @@
         });
     }
 
-    function attachPaginationAction() {
-        var pageBack = document.querySelector('.page-back');
-        var pageForward = document.querySelector('.page-forward');
-        if (pageBack) {
-            let prevPage = parseInt(pageBack.dataset.nextPage, 10);
-            pageBack.onclick = () => onBlogsRoute({
-                path: `/blogs/${prevPage}`
-            });
-        }
-        if (pageForward) {
-            let nextPage = parseInt(pageForward.dataset.nextPage, 10);
-            pageForward.onclick = () => onBlogsRoute({
-                path: `/blogs/${nextPage}`
-            });
-        }
-    }
-
     function isCached(key) {
         if (isLocalStorageSupported) {
             let cachedItem = JSON.parse(localStorage.getItem(key));
@@ -86,6 +88,18 @@
         }
         return path ? path : null;
     }
+
+    function hasPageControls(path) {
+        return path && (path === '/' || path.toLowerCase().indexOf('/blogs/') === 0);
+    }
+
+    /*
+        Set information specific to page:
+        - does it have page controls?
+        - need read more link actions (TODO)
+        - need navbar action? (TODO)
+    */
+    function setPageState(path) { }
 
     // Route handling
     function onSuccess(ctx, html) {
@@ -126,9 +140,10 @@
     }
 
     function onBlogsRoute(ctx) {
+        var page = ctx.path === '/' ? 1 : parseInt(ctx.params.page, 10);
         return onRoute(ctx).then(function () {
             attachReadMoreLinkAction();
-            attachPaginationAction();
+            pageControls.dataset.page = page;
         });;
     }
 

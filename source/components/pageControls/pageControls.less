@@ -1,0 +1,28 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.page-controls {
+    margin: 24px auto 0 auto;
+    width: 120px;
+    text-align: center;
+    font-size: 25px;
+
+    .page-control {
+        display: inline-block;
+        width: 45%;
+        border: 1px solid black;
+        background-color: white;
+    }
+
+    .page-info {
+        margin-top: 8px;
+    }
+}
+
+// simple clearfix, clear all the floats
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}

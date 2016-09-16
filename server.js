@@ -2,12 +2,15 @@ var express = require('express');
 var path = require('path');
 var Poet = require('poet');
 
+var middleware = require('./lib/middleware');
+var helpers = require('./lib/helpers');
+
 var port = process.env.PORT || 3000;
 var environment = process.env.NODE_ENV || 'development';
 var app = express();
 var poet = Poet(app, {
     posts: './posts/',
-    postsPerPage: 5,
+    postsPerPage: 2,
     metaFormat: 'json',
     routes: { },  // Use custom routes defined below
     readMoreTag: '<!--more-->',
@@ -19,44 +22,14 @@ var poet = Poet(app, {
         `;
     }
 });
-
-function stringToNum(str) {
-    var num = parseInt(str, 10);
-    return (!isNaN(num) && str === ('' + num)) ? num : NaN;
-}
-
-function getPostsForPage(page) {
-    var postsPerPage = poet.helpers.options.postsPerPage;
-    return poet.helpers.getPosts(
-        (page - 1) * postsPerPage,
-        page * postsPerPage
-    );
-}
-
-function getBasePath(path) {
-    if (path) {
-        let pathTokens = path.split('/');
-        let pathToken = pathTokens[0];
-        if (path.length > 0 &&
-            path[0] === '/') {
-            pathToken = pathTokens[1];
-        }
-        return '/' + pathToken;
-    }
-    return null;
-}
-
-function isValidPage(page) {
-    var numPages = poet.helpers.getPageCount();
-    return page > 0 && page <= numPages;
-}
+var poetHelpers = require('./lib/poetHelpers')(poet);
 
 // Setup PoetJS for Blogging
 poet.init().then(function () {
     console.log('Poet blog engine initialized');
-    console.log('Post Count:', poet.helpers.getPostCount());
-    console.log('Page Count:', poet.helpers.getPageCount());
-    console.log('Options:', JSON.stringify(poet.helpers.options));
+    console.log('Post Count:', poetHelpers.getPostCount());
+    console.log('Page Count:', poetHelpers.getPageCount());
+    console.log('Options:', JSON.stringify(poetHelpers.getOptions()));
 }, function (err) {
     console.error(err);
 });
@@ -70,59 +43,25 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // hasLayout middleware
-app.use(function (req, res, next) {
-    req.hasLayout = !(req.query.haslayout &&
-                    req.query.haslayout.toLowerCase() === 'false');
-    next();
-});
+app.use(middleware.hasLayout);
 
 // Choose correct view middleware
-app.use(function (req, res, next) {
-    var hasLayout = req.hasLayout, view;
-    var basePath = getBasePath(req.path);
-    switch(basePath) {
-        case '/':
-            view = hasLayout ? 'blogs-page' : 'blogs';
-            break;
-        case '/about':
-            view = hasLayout ? 'about-page' : 'about';
-            break;
-        case '/resume':
-            view = hasLayout ? 'resume-page' : 'resume';
-            break;
-        case '/blogs':
-            view = hasLayout ? 'blogs-page' : 'blogs';
-            break;
-        case '/blog':
-            view = hasLayout ? 'blog-page' : 'blog';
-            break;
-    }
-    req.view = view;
-    next();
-});
+app.use(middleware.getView);
 
 // Request Logger middleware
-app.use(function (req, res, next) {
-    console.log(JSON.stringify({
-        userAgent: req.headers['user-agent'],
-        ipAddress: req.ip,
-        path: req.path,
-        query: JSON.stringify(req.query)
-    }));
-    next();
-});
+app.use(middleware.logger);
 
-function onRoute(req, res, data) {
-    res.render(req.view, data);
+function onRoute(req, res, viewData) {
+    res.render(req.view, viewData);
 }
 
 function onBlogsRoute(req, res, page) {
-    if (isValidPage(page)) {
+    if (poetHelpers.isValidPage(page)) {
         onRoute(req, res, {
             environment: environment,
-            posts: getPostsForPage(page),
+            posts: poetHelpers.getPostsForPage(page),
             page: page,
-            numPages: poet.helpers.getPageCount()
+            numPages: poetHelpers.getPageCount()
         });
     } else {
         res.status(404).send('Thats an invalid page number');
@@ -144,7 +83,7 @@ app.get('/resume', (req, res) => onRoute(req, res, {
 
 // Multi-blog route
 poet.addRoute('/blogs/:page', (req, res) => {
-    var page = stringToNum(req.params.page);
+    var page = helpers.stringToNum(req.params.page);
     if (isNaN(page)) {
         res.status(404).send('Invalid page requested.');
     } else {
@@ -154,7 +93,7 @@ poet.addRoute('/blogs/:page', (req, res) => {
 
 // Individual blog route
 poet.addRoute('/blog/:post', (req, res) => {
-    var post = poet.helpers.getPost(req.params.post);
+    var post = poetHelpers.getPost(req.params.post);
     if (post) {
         onRoute(req, res, {
             environment: environment,
@@ -163,6 +102,11 @@ poet.addRoute('/blog/:post', (req, res) => {
     } else {
         res.status(404).send('Thats not a valid post title');
     }
+});
+
+// Page API
+app.get('/api/pagecount', function (req, res) {
+    res.status(200).json(poetHelpers.getPageCount());
 });
 
 // Start the server
