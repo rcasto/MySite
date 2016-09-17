@@ -25,8 +25,8 @@ var poet = Poet(app, {
 var poetHelpers = require('./lib/poetHelpers')(poet);
 
 // Setup PoetJS for Blogging
-poet.watch(function () {
-    console.log('Poet posts engine refreshed');
+poet.watch(function () { // if a post is deleted, it will still exist in the internal cache
+    console.log('Poet blog engine refreshed');
     console.log(poetHelpers.getStats());
 }).init().then(function () {
     console.log('Poet blog engine initialized');
