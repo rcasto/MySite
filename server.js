@@ -25,7 +25,9 @@ var poet = Poet(app, {
 var poetHelpers = require('./lib/poetHelpers')(poet);
 
 // Setup PoetJS for Blogging
-poet.init().then(function () {
+poet.watch(function () {
+    console.log('Poet posts engine refreshed');
+}).init().then(function () {
     console.log('Poet blog engine initialized');
     console.log('Post Count:', poetHelpers.getPostCount());
     console.log('Page Count:', poetHelpers.getPageCount());

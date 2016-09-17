@@ -129,6 +129,7 @@
         return new Promise(function (resolve, reject) {
             // if local storage is supported, let's cache the data
             path = getPath(ctx.path);
+            pageControls.hidden = true;
             if (isCached(path)) {
                 resolve(onSuccess(ctx, JSON.parse(localStorage.getItem(path)).data));
             } else {
@@ -143,6 +144,7 @@
         var page = ctx.path === '/' ? 1 : parseInt(ctx.params.page, 10);
         return onRoute(ctx).then(function () {
             attachReadMoreLinkAction();
+            pageControls.hidden = false;
             pageControls.dataset.page = page;
         });;
     }
