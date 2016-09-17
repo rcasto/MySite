@@ -27,11 +27,10 @@ var poetHelpers = require('./lib/poetHelpers')(poet);
 // Setup PoetJS for Blogging
 poet.watch(function () {
     console.log('Poet posts engine refreshed');
+    console.log(poetHelpers.getStats());
 }).init().then(function () {
     console.log('Poet blog engine initialized');
-    console.log('Post Count:', poetHelpers.getPostCount());
-    console.log('Page Count:', poetHelpers.getPageCount());
-    console.log('Options:', JSON.stringify(poetHelpers.getOptions()));
+    console.log(poetHelpers.getStats());
 }, function (err) {
     console.error(err);
 });
