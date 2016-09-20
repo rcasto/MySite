@@ -14,6 +14,7 @@ var jsSources = ['source/scripts/**/*.js', 'source/scripts/*.js', 'source/compon
 var views = ['source/devScripts.html', 'source/components/**/*.html'];
 var images = ['source/images/*.jpg', 'source/images/*.svg'];
 var lessFiles = ['source/styles/*.less', 'source/components/**/*.less'];
+var fonts = ['source/font/*.ttf'];
 
 var output = ['dist'];
 
@@ -82,6 +83,12 @@ gulp.task('images', function () {
     }).pipe(gulp.dest('./dist'));
 });
 
+gulp.task('fonts', function () {
+    return gulp.src(fonts, {
+        base: 'source'
+    }).pipe(gulp.dest('./dist'));
+});
+
 gulp.task('clean', function () {
     return del(output);
 });
@@ -95,8 +102,8 @@ gulp.task('clean', function () {
 gulp.task('default', function () {
     var environment = process.env.NODE_ENV || 'development';
     if (environment === 'production') {
-        runSequence('clean', ['minifyjs', 'minifycss', 'views', 'images']);
+        runSequence('clean', ['minifyjs', 'minifycss', 'views', 'images', 'fonts']);
     } else {
-        runSequence('clean', ['scripts', 'styles', 'views', 'images']);
+        runSequence('clean', ['scripts', 'styles', 'views', 'images', 'fonts']);
     }
 });

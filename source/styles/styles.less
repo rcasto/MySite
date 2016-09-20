@@ -1,11 +1,17 @@
 @mobile-breakpoint: 360px;
 @website-max-width: 1024px;
 
+@font-face {
+  font-family: 'GeoSansLight';
+  src: url('/font/GeosansLight.ttf');
+}
+
 *, *:before, *:after {
     box-sizing: border-box; 
 }
 
 body {
+    font-family: 'GeoSansLight', sans-serif;
     padding: 12px;
     max-width: @website-max-width;
     width: 100%;

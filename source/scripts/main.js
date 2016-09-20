@@ -30,7 +30,6 @@
         });
         // Attach actions
         attachNavBarAction();
-        attachReadMoreLinkAction();
         // Start routing, the dispatch of false prevents client side routes from 
         // running on initial page load from server
         page({
@@ -92,14 +91,6 @@
     function hasPageControls(path) {
         return path && (path === '/' || path.toLowerCase().indexOf('/blogs/') === 0);
     }
-
-    /*
-        Set information specific to page:
-        - does it have page controls?
-        - need read more link actions (TODO)
-        - need navbar action? (TODO)
-    */
-    function setPageState(path) { }
 
     // Route handling
     function onSuccess(ctx, html) {
